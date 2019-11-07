@@ -1,0 +1,1 @@
+powershell.exe -executionpolicy bypass -file "RUN_MONGO_SERVER.ps1"

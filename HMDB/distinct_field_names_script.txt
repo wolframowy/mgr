@@ -1,0 +1,23 @@
+mr = db.runCommand({
+  "mapreduce" : "spectras",
+  "map" : function() {
+    for (var key in this['ms-ms']) { 
+	if (key == 'references') {
+		for (var k in this['ms-ms']['references']['reference']) {
+			emit(k, null);
+		}
+	}
+    }
+  },
+  "reduce" : function(key, stuff) { return null; }, 
+  "out": "spectras" + "_keys"
+})
+
+
+
+db[mr.result].distinct("_id")
+["foo", "bar", "baz", "_id", ...]
+
+
+
+This may be obvious, but if you want to get a list of all the unique keys in a subdocument, just modify this line: for (var key in this["first_level"]["second_level"]["nth_level"]) { emit(key, null); }

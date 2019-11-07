@@ -1,0 +1,9 @@
+{% extends "admin/base.html" %}
+
+{% block title %}{{ title }} | Django Test {% endblock %}
+
+{% block branding %}
+<h1 id="site-name"><a href="{% url 'admin:index' %}">Django Test</a></h1>
+{% endblock %}
+
+{% block nav-global %}{% endblock %}

@@ -1,0 +1,6 @@
+*.json
+*.xml
+*.zip
+DB
+__pycache__
+.idea

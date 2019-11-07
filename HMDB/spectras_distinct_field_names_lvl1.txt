@@ -1,0 +1,158 @@
+[ "_id", "c-ms", "ms-ms", "nmr-one-d", "nmr-two-d" ]
+
+"445976"
+
+HMDB0000011_ms_ms_spectrum_18_experimental.json
+
+null jest reprezentowany jako oddzielny obiek o strukturze 
+{
+  "@nil": "true",
+}
+
+c-ms:
+[
+        "base-peak",
+        "c-ms-peaks",
+        "chromatography-type",
+        "collection-date",
+        "column-type",
+        "created-at",
+        "database-id",
+        "derivative-exact-mass",
+        "derivative-formula",
+        "derivative-mw",
+        "derivative-smiles",
+        "derivative-type",
+        "id",
+        "instrument-type",
+        "ionization-mode",
+        "notes",
+        "peak-counter",
+        "predicted",
+        "references",
+        "retention-index",
+        "retention-time",
+        "ri-type",
+        "sample-assessment",
+        "sample-concentration",
+        "sample-concentration-units",
+        "sample-mass",
+        "sample-mass-units",
+        "sample-source",
+        "solvent",
+        "spectra-assessment",
+        "splash-key",
+        "structure-id",
+        "updated-at"
+]
+
+ms-ms:
+[
+        "collection-date":                                date,
+        "collision-energy-level":                         str,
+        "collision-energy-voltage":                       uint,
+        "created-at":                                     datetime,
+        "database-id":                                    str,
+        "energy-field":                                   str?,
+        "id":                                             uint,
+        "instrument-type":                                str,
+        "ionization-mode":                                str,
+        "mono-mass":                                      str? (jest zawsze {"@nil": "true},
+        "ms-ms-peaks": {"ms-ms-peak": []}, tablica skladajaca sie z obiektow z atrybutami
+		{
+            "id" : "2125",                                INT
+            "ms-ms-id" : "2",                             INT
+            "mass-charge" : "83.1",                       FLOAT
+            "intensity" : "6.6850282585",                 DOUBLE
+            "molecule-id" : {		                      UINT?
+                "@nil" : "true"
+            }
+        }
+        "nil-classes"                                    wszędzie null,
+        "notes":                                         bigstring (czy jakos tak),
+        "peak-counter":                                  uint,
+        "predicted":                                     boolean,
+        "references": {
+            "reference": {
+                "id":                                    uint,
+                "spectra-id":                            uint - the same id as the spectra have
+                "spectra-type":                          string (in this case alwast "MsMs")
+                "pubmed-id":                             prawdopodobnie uint
+                "ref-text":                              string
+                "database":                              string?
+                "database-id":                           uint albo string?
+            }
+        },
+        "sample-assessment":                             str,
+        "sample-concentration",                          float,
+        "sample-concentration-units",                    string,
+        "sample-mass":                                   float,
+        "sample-mass-units":                             string,
+        "sample-source",                                 zawsze null, ale pewnie string
+        "solvent",                                       zawsze null, ale pewnie string
+        "spectra-assessment":                            string,
+        "splash-key":                                    string - to jest jakis hash,
+        "structure-id",                                  uint
+        "updated-at":                                    datetime
+]
+
+nmr-one-d:
+[
+        "chemical-shift-reference",
+        "collection-date",
+        "created-at",
+        "database-id",
+        "frequency",
+        "id",
+        "instrument-type",
+        "nmr-one-d-peaks",
+        "notes",
+        "nucleus",
+        "peak-counter",
+        "references",
+        "sample-assessment",
+        "sample-concentration",
+        "sample-concentration-units",
+        "sample-mass",
+        "sample-mass-units",
+        "sample-ph",
+        "sample-source",
+        "sample-temperature",
+        "sample-temperature-units",
+        "searchable",
+        "solvent",
+        "spectra-assessment",
+        "structure-id",
+        "updated-at"
+]
+
+nmr-two-d:
+[
+        "chemical-shift-reference",
+        "collection-date",
+        "created-at",
+        "database-id",
+        "frequency",
+        "id",
+        "instrument-type",
+        "nmr-two-d-peaks",
+        "notes",
+        "nucleus-x",
+        "nucleus-y",
+        "peak-counter",
+        "references",
+        "sample-assessment",
+        "sample-concentration",
+        "sample-concentration-units",
+        "sample-mass",
+        "sample-mass-units",
+        "sample-ph",
+        "sample-source",
+        "sample-temperature",
+        "sample-temperature-units",
+        "searchable",
+        "solvent",
+        "spectra-assessment",
+        "structure-id",
+        "updated-at"
+]

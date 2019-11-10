@@ -11,23 +11,29 @@ NIL = {
 
 
 def change_nil_in_list(content):
+    new = []
     for idx, val in enumerate(content):
         if val == NIL:
-            content[idx] = None
+            val = None
         elif isinstance(val, dict):
-            change_nil_in_obj(val)
+            val = change_nil_in_obj(val)
         elif isinstance(val, list):
-            change_nil_in_list(val)
+            val = change_nil_in_list(val)
+        new.append(val)
+    return new
 
 
 def change_nil_in_obj(content):
+    new = {}
     for k, v in content.items():
         if v == NIL:
-            content[k] = None
+            v = None
         elif isinstance(v, dict):
-            change_nil_in_obj(v)
+            v = change_nil_in_obj(v)
         elif isinstance(v, list):
-            change_nil_in_list(v)
+            v = change_nil_in_list(v)
+        new[k.replace('-', '_')] = v
+    return new
 
 
 def files_to_array(name):
@@ -70,7 +76,7 @@ def spectras_to_json():
         if name.find(".xml") != -1:
             with open(name.replace(".xml", ".json"), "w") as outfile:
                 content = xmltodict.parse(archive.open(name))
-                change_nil_in_obj(content)
+                content = change_nil_in_obj(content)
                 json.dump(content, outfile, indent=1)
         if idx % 1000 == 0:
             print(" " + str(idx) + " / " + str(archive.namelist().__len__()))
@@ -93,4 +99,4 @@ def metabolites_to_json():
 
 if __name__ == "__main__":
     spectras_to_json()
-    # metabolites_to_json()
+    metabolites_to_json()

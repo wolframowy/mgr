@@ -1,0 +1,22 @@
+{% load static %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'polls/style.css' %}">
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Polls Index</title>
+</head>
+<body>
+{% if all_spectra %}
+    <ul>
+    {% for spectra in all_spectra %}
+        <li>{{ spectra.ms_ms.id }}</li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No spectras are available.</p>
+{% endif %}
+</body>
+</html>

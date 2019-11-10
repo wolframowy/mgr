@@ -3,6 +3,32 @@ import datetime
 from djongo import models
 
 
+class MsMsPeak(models.Model):
+
+    id = models.PositiveIntegerField('Peak ID')
+    ms_ms_id = models.PositiveIntegerField('Spectrum ID')
+    mass_charge = models.FloatField('Mass charge')
+    intensity = models.FloatField('Intensity')
+    molecule_id = models.PositiveIntegerField('Molecule ID')
+
+    class Meta:
+        abstract = True
+
+
+class Reference(models.Model):
+
+    id = models.PositiveIntegerField('Reference ID')
+    spectra_id = models.PositiveIntegerField('Spectra ID')
+    spectra_type = models.TextField('Spectra type', max_length=10)
+    pubmed_id = models.PositiveIntegerField('Pubmed ID')
+    ref_text = models.TextField('Reference text', max_length=1000)
+    database = models.TextField('Database', max_length=50)
+    database_id = models.TextField('Database id', max_length=10)
+
+    class Meta:
+        abstract = True
+
+
 class MsMs(models.Model):
     collection_date = models.DateField('Collection date')
     collision_energy_level = models.TextField('Collision energy level', max_length=20)
@@ -19,15 +45,17 @@ class MsMs(models.Model):
     # Mono mass is null everywhere
     mono_mass = models.FloatField('Mono mass')
 
-    # TODO
-    # ms_ms_peaks
+    ms_ms_peaks = models.ArrayModelField(
+        model_container=MsMsPeak
+    )
 
-    notes = models.TextField('Notes', max_length=100)
+    notes = models.TextField('Notes', max_length=1000)
     peak_counter = models.PositiveIntegerField('Peak count')
     predicted = models.BooleanField('Is predicted?')
 
-    # TODO
-    # references
+    references = models.ArrayModelField(
+        model_container=Reference
+    )
 
     sample_assessment = models.TextField('Sample assessment', max_length=20)
     sample_concentration = models.FloatField('Sample concentration')

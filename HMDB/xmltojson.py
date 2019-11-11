@@ -10,28 +10,39 @@ NIL = {
 }
 
 
-def change_nil_in_list(content):
+def change_boolean(val):
+    if val == "true":
+        return True
+    elif val == "false":
+        return False
+
+
+def change_vals_in_list(content):
     new = []
     for idx, val in enumerate(content):
         if val == NIL:
             val = None
+        elif val == "true" or val == "false":
+            val = change_boolean(val)
         elif isinstance(val, dict):
-            val = change_nil_in_obj(val)
+            val = change_vals_in_obj(val)
         elif isinstance(val, list):
-            val = change_nil_in_list(val)
+            val = change_vals_in_list(val)
         new.append(val)
     return new
 
 
-def change_nil_in_obj(content):
+def change_vals_in_obj(content):
     new = {}
     for k, v in content.items():
         if v == NIL:
             v = None
+        elif v == "true" or v == "false":
+            v = change_boolean(v)
         elif isinstance(v, dict):
-            v = change_nil_in_obj(v)
+            v = change_vals_in_obj(v)
         elif isinstance(v, list):
-            v = change_nil_in_list(v)
+            v = change_vals_in_list(v)
         new[k.replace('-', '_')] = v
     return new
 
@@ -76,7 +87,7 @@ def spectras_to_json():
         if name.find(".xml") != -1:
             with open(name.replace(".xml", ".json"), "w") as outfile:
                 content = xmltodict.parse(archive.open(name))
-                content = change_nil_in_obj(content)
+                content = change_vals_in_obj(content)
                 json.dump(content, outfile, indent=1)
         if idx % 1000 == 0:
             print(" " + str(idx) + " / " + str(archive.namelist().__len__()))
@@ -90,11 +101,20 @@ def metabolites_to_json():
         if name.find(".xml") != -1:
             print(name.replace(".xml", ".json"))
             with open(name.replace(".xml", ".json"), "w") as outfile:
+                outfile.write("[\n")
                 content = xmltodict.parse(archive.open(name))
+                content = content['hmdb']['metabolite']
+                first = True
                 print('Started replacing NIL objects with Nones')
-                change_nil_in_obj(content)
+                for metabolite in content:
+                    if first:
+                        first = False
+                    else:
+                        outfile.write(",\n")
+                    json.dump(change_vals_in_obj(metabolite), outfile, indent=1)
+                first = False
+                outfile.write("\n]")
                 print('Finished replacing NIL objects with Nones')
-                json.dump(content['hmdb']['metabolite'], outfile, indent=1)
 
 
 if __name__ == "__main__":

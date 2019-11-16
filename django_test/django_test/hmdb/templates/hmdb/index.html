@@ -9,10 +9,10 @@
     <title>Polls Index</title>
 </head>
 <body>
-{% if all_spectra %}
+{% if spectras %}
     <ul>
-    {% for spectra in all_spectra %}
-        <li>{{ spectra.ms_ms.id }}</li>
+    {% for spectra in spectras %}
+        <li>{{ spectra.ms_ms.instrument_type }}</li>
     {% endfor %}
     </ul>
 {% else %}

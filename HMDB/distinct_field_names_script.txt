@@ -13,6 +13,21 @@ mr = db.runCommand({
   "out": "spectras" + "_keys"
 })
 
+mr = db.runCommand({
+  "mapreduce" : "metabolites",
+  "map" : function() {
+    for (var key in this['biological_properties']) { 
+	for (var k in this['biological_properties']['cellular_locations']) {
+		if (this['biological_properties']['cellular_locations'] != null) {
+			emit(this['biological_properties']['cellular_locations']['cellular'], null);
+		}
+	}
+    }
+  },
+  "reduce" : function(key, stuff) { return null; }, 
+  "out": "metabolites" + "_keys"
+})
+
 
 
 db[mr.result].distinct("_id")

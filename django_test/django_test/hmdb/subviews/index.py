@@ -4,6 +4,6 @@ from ..models import Spectra
 
 
 def index(request):
-    all_spectra = Spectra.objects.all()
-    context = {'all_spectra': all_spectra}
+    spectras = Spectra.objects.all().only("ms_ms")[:5]
+    context = {'spectras': spectras}
     return render(request, 'hmdb/index.html', context)

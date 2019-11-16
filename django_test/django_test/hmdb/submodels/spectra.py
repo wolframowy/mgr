@@ -15,6 +15,16 @@ class MsMsPeak(models.Model):
         abstract = True
 
 
+class MsMsPeakArray(models.Model):
+
+    ms_ms_peak = models.ArrayModelField(
+        model_container=MsMsPeak
+    )
+
+    class Meta:
+        abstract = True
+
+
 class Reference(models.Model):
 
     id = models.PositiveIntegerField('Reference ID')
@@ -24,6 +34,15 @@ class Reference(models.Model):
     ref_text = models.TextField('Reference text', max_length=1000)
     database = models.TextField('Database', max_length=50)
     database_id = models.TextField('Database id', max_length=10)
+
+    class Meta:
+        abstract = True
+
+
+class ReferenceArray(models.Model):
+    reference = models.ArrayModelField(
+        model_container=Reference
+    )
 
     class Meta:
         abstract = True
@@ -45,16 +64,16 @@ class MsMs(models.Model):
     # Mono mass is null everywhere
     mono_mass = models.FloatField('Mono mass')
 
-    ms_ms_peaks = models.ArrayModelField(
-        model_container=MsMsPeak
+    ms_ms_peaks = models.EmbeddedModelField(
+        model_container=MsMsPeakArray
     )
 
     notes = models.TextField('Notes', max_length=1000)
     peak_counter = models.PositiveIntegerField('Peak count')
     predicted = models.BooleanField('Is predicted?')
 
-    references = models.ArrayModelField(
-        model_container=Reference
+    references = models.EmbeddedModelField(
+        model_container=ReferenceArray
     )
 
     sample_assessment = models.TextField('Sample assessment', max_length=20)
@@ -83,5 +102,7 @@ class Spectra(models.Model):
         model_container=MsMs
     )
 
+    # TODO
+    # Change __str__ function and add other functions
     def __str__(self):
         return "Spectra test"

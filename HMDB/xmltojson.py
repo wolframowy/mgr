@@ -9,12 +9,23 @@ NIL = {
     "@nil": "true"
 }
 
+KEYS_TO_LIST = ["reference", "accession", "synonym", "alternative_parent", "substituent",
+                "external_descriptor", "root", "descendant", "property", "spectrum",
+                "cellular", "biospecimen", "tissue", "pathway", "concentration", "disease",
+                "protein", "identifier"]
+
 
 def change_boolean(val):
     if val == "true":
         return True
     elif val == "false":
         return False
+
+
+def unify_to_list(key, value):
+    if key in KEYS_TO_LIST and not isinstance(value, list):
+        value = [value]
+    return value
 
 
 def change_vals_in_list(content):
@@ -43,6 +54,7 @@ def change_vals_in_obj(content):
             v = change_vals_in_obj(v)
         elif isinstance(v, list):
             v = change_vals_in_list(v)
+        v = unify_to_list(key=k, value=v)
         new[k.replace('-', '_')] = v
     return new
 
@@ -105,7 +117,7 @@ def metabolites_to_json():
                 content = xmltodict.parse(archive.open(name))
                 content = content['hmdb']['metabolite']
                 first = True
-                print('Started replacing NIL objects with Nones')
+                print('Started transforming keys and values')
                 for metabolite in content:
                     if first:
                         first = False
@@ -114,9 +126,9 @@ def metabolites_to_json():
                     json.dump(change_vals_in_obj(metabolite), outfile, indent=1)
                 first = False
                 outfile.write("\n]")
-                print('Finished replacing NIL objects with Nones')
+                print('Finished transforming keys and values')
 
 
 if __name__ == "__main__":
     spectras_to_json()
-    metabolites_to_json()
+    # metabolites_to_json()

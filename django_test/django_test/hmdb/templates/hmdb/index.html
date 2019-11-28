@@ -1,22 +1,12 @@
-{% load static %}
-
-<link rel="stylesheet" type="text/css" href="{% static 'polls/style.css' %}">
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Polls Index</title>
+    <title>HMDB Index</title>
 </head>
 <body>
-{% if spectras %}
-    <ul>
-    {% for spectra in spectras %}
-        <li>{{ spectra.ms_ms.instrument_type }}</li>
-    {% endfor %}
-    </ul>
-{% else %}
-    <p>No spectras are available.</p>
-{% endif %}
+<h2><b>
+    TEST INDEX PAGE
+</b></h2>
 </body>
 </html>

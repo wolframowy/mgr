@@ -78,6 +78,9 @@ DATABASES = {
     'default': {
         'ENGINE': 'djongo',
         'NAME': 'hmdb',
+
+        # Schema set to false, because there can be some missing or optional fields
+        'ENFORCE_SCHEMA': False,
     }
 }
 

@@ -1,1 +1,1 @@
-mongod.exe --dbpath "DB"
+mongod --dbpath "DB"

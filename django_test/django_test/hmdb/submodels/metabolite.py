@@ -29,9 +29,9 @@ class AlternativeParents(models.Model):
         abstract = True
 
 
-class SubstitutentArray(models.Model):
+class SubstituentArray(models.Model):
 
-    substitutent = models.ListField('Substitutent')
+    substituent = models.ListField('Substituent')
 
     class Meta:
         abstract = True
@@ -51,14 +51,14 @@ class Taxonomy(models.Model):
     direct_parent = models.TextField('Direct parent', max_length=100)
     kingdom = models.TextField('Kingdom', max_length=100)
     super_class = models.TextField('Super class', max_length=100)
-    main_class = models.TextField('Class', db_column='class', max_length=100)
+    main_class = models.TextField('Class', max_length=100)
     sub_class = models.TextField('Sub class', max_length=100)
     molecular_framework = models.TextField('Molecular framework', max_length=100)
-    alternative_parent = models.EmbeddedModelField(
+    alternative_parents = models.EmbeddedModelField(
         model_container=AlternativeParents
     )
-    substitutents = models.EmbeddedModelField(
-        model_container=SubstitutentArray
+    substituents = models.EmbeddedModelField(
+        model_container=SubstituentArray
     )
     external_descriptors = models.EmbeddedModelField(
         model_container=ExternalDescriptorsArray
@@ -68,42 +68,46 @@ class Taxonomy(models.Model):
         abstract = True
 
 
-# Due to cross reference with OntologyRoot class is described here, and it's attribute is added later on
-class Descendant(models.Model):
+"""
+    FOR TIME BEING ONTOLOGY IS OUT OF DATA. 
+    REASON IS THAT THERE WAS CIRCULAR REFERENCE WHICH DJONGO DOESN'T SUPPORT
+    
+"""
 
-    class Meta:
-        abstract = True
-
-
-class OntologyRoot(models.Model):
-
-    term = models.TextField('Term', max_length=100)
-    definition = models.TextField('Definition', max_length=1000)
-    parent_id = models.PositiveIntegerField('Parent ID')
-    level = models.PositiveSmallIntegerField('Level')
-    type = models.TextField('Type', max_length=50)
-    # synonyms =  ---- TODO check how synonyms are represented
-    descendants = models.EmbeddedModelField(
-        model_container=Descendant
-    )
-
-    class Meta:
-        abstract = True
-
-
-# It has to be here due to cross reference with OntologyRoot
-Descendant.descendant = models.ArrayModelField(
-        model_container=OntologyRoot
-    )
-
-
-class Ontology(models.Model):
-    root = models.ArrayModelField(
-        model_container=OntologyRoot
-    )
-
-    class Meta:
-        abstract = True
+# # Due to cross reference with OntologyRoot class is described here, and it's attribute is added later on
+# class Descendant(models.Model):
+#
+#     descendant = models.ArrayModelField(
+#         model_container=OntologyRoot
+#     )
+#
+#     class Meta:
+#         abstract = True
+#
+#
+# class OntologyRoot(models.Model):
+#
+#     term = models.TextField('Term', max_length=100)
+#     definition = models.TextField('Definition', max_length=1000)
+#     parent_id = models.PositiveIntegerField('Parent ID')
+#     level = models.PositiveSmallIntegerField('Level')
+#     type = models.TextField('Type', max_length=50)
+#     synonyms = models.TextField('Synonyms', max_length=50)
+#     descendants = models.EmbeddedModelField(
+#         model_container=Descendant
+#     )
+#
+#     class Meta:
+#         abstract = True
+#
+#
+# class Ontology(models.Model):
+#     root = models.ArrayModelField(
+#         model_container=OntologyRoot
+#     )
+#
+#     class Meta:
+#         abstract = True
 
 
 class Property(models.Model):
@@ -219,10 +223,13 @@ class ReferenceArray(models.Model):
 class Concentration(models.Model):
 
     biospecimen = models.TextField('Biospecimen', max_length=50)
-    concetration_value = models.TextField('Concentration value', max_length=20)
-    concentration_unit = models.TextField('Concentration unit', max_length=10)
+    concentration_value = models.TextField('Concentration value', max_length=20)
+    concentration_units = models.TextField('Concentration unit', max_length=10)
     subject_age = models.TextField('Subject Age', max_length=50)
     subject_sex = models.TextField('Subject Sex', max_length=20)
+    subject_condition = models.TextField('Subject condition', max_length=50)
+    subject_information = models.TextField('Subject information', max_length=50)
+    comment = models.TextField('Comment', max_length=1000)
     references = models.EmbeddedModelField(
         model_container=ReferenceArray
     )
@@ -336,9 +343,10 @@ class Metabolite(models.Model):
     taxonomy = models.EmbeddedModelField(
         model_container=Taxonomy
     )
-    ontology = models.EmbeddedModelField(
-        model_container=Ontology
-    )
+    # Otology omited for time being as djongo doesn't work with circular reference
+    # ontology = models.EmbeddedModelField(
+    #     model_container=Ontology
+    # )
     state = models.TextField('State', max_length=20)
     experimental_properties = models.EmbeddedModelField(
         model_container=PropertyArray
@@ -364,7 +372,7 @@ class Metabolite(models.Model):
     kegg_id = models.TextField('Kegg ID', max_length=20)
     chebi_id = models.PositiveIntegerField('Chebi ID')
     chemspider_id = models.PositiveIntegerField('Chemspider ID')
-    pubchem_compoud_id = models.PositiveIntegerField('Pubchem compoud ID')
+    pubchem_compound_id = models.PositiveIntegerField('Pubchem compoud ID' )
     foodb_id = models.PositiveIntegerField('Foodb ID')
     drugbank_id = models.PositiveIntegerField('Drugbank ID')
     phenol_explorer_compound_id = models.PositiveIntegerField('Phenol explorer compound ID')
@@ -382,7 +390,7 @@ class Metabolite(models.Model):
         model_container=ProteinAssociations
     )
 
-    biocyc_id = models.TextField('Biocyc_id', max_length=50)
+    biocyc_id = models.TextField('Biocyc_id', max_length=50, blank=True)
     biospecimen_locations = models.EmbeddedModelField(
         model_container=Biospecimen
     )

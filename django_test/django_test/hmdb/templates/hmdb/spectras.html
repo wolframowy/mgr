@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>HMDB Spectras</title>
+</head>
+<body>
+{% if spectras %}
+    <ul>
+    {% for spectra in spectras %}
+        <li>{{ spectra.ms_ms.instrument_type }}</li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No spectras are available.</p>
+{% endif %}
+</body>
+</html>

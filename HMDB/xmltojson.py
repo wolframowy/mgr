@@ -35,7 +35,7 @@ def change_boolean(val):
 def unify_name(name):
     if name in KEYS_TO_UNIFY:
         return KEYS_TO_UNIFY[name]
-    return name
+    return name.replace('-', '_')
 
 
 def unify_to_list(key, value):
@@ -117,10 +117,12 @@ def spectras_to_json():
     archive = zipfile.ZipFile(zipfilename, "r")
     for idx, name in enumerate(archive.namelist()):
         if name.find(".xml") != -1:
-            with open(name.replace(".xml", ".json"), "w") as outfile:
-                content = xmltodict.parse(archive.open(name))
-                content = change_vals_in_obj(content)
-                json.dump(content, outfile, indent=1)
+            content = xmltodict.parse(archive.open(name))
+            if 'ms-ms' in content:
+                with open(name.replace(".xml", ".json"), "w") as outfile:
+                    content = change_vals_in_obj(content)
+                    content['id'] = content['ms_ms']['id']
+                    json.dump(content, outfile, indent=1)
         if idx % 1000 == 0:
             print(" " + str(idx) + " / " + str(archive.namelist().__len__()))
     files_to_array(name=dirname)
@@ -139,6 +141,7 @@ def metabolites_to_json():
                 print('Loaded {0} metabolites'.format(content.__len__()))
                 first = True
                 print('Started transforming keys and values')
+                met_id = 1
                 for metabolite in content:
                     if first:
                         first = False
@@ -150,6 +153,8 @@ def metabolites_to_json():
                         print("One metabolite is faulty!!!")
                         assert(metabolite.items().__len__() == 1)
                     parsed_met = change_vals_in_obj(metabolite)
+                    parsed_met['id'] = met_id
+                    met_id += 1
                     if parsed_met is None or parsed_met == {}:
                         assert True
                     json.dump(parsed_met, outfile, indent=1)
@@ -158,5 +163,5 @@ def metabolites_to_json():
 
 
 if __name__ == "__main__":
-    # spectras_to_json()
+    spectras_to_json()
     metabolites_to_json()

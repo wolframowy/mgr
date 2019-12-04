@@ -65,15 +65,15 @@ class MsMs(models.Model):
     mono_mass = models.FloatField('Mono mass')
 
     ms_ms_peaks = models.EmbeddedModelField(
-        model_container=MsMsPeakArray
+        model_container=MsMsPeakArray, blank=True
     )
 
     notes = models.TextField('Notes', max_length=1000)
     peak_counter = models.PositiveIntegerField('Peak count')
-    predicted = models.BooleanField('Is predicted?')
+    predicted = models.BooleanField('Is predicted?', default=False)
 
     references = models.EmbeddedModelField(
-        model_container=ReferenceArray
+        model_container=ReferenceArray, blank=True
     )
 
     sample_assessment = models.TextField('Sample assessment', max_length=20)

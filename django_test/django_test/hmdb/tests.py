@@ -1,3 +1,2 @@
-from django.test import TestCase
 
-# Create your tests here.
+from .test_cases.test_reg_param import *

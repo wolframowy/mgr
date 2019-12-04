@@ -121,7 +121,7 @@ def spectras_to_json():
             if 'ms-ms' in content:
                 with open(name.replace(".xml", ".json"), "w") as outfile:
                     content = change_vals_in_obj(content)
-                    content['id'] = content['ms_ms']['id']
+                    content['id'] = int(content['ms_ms']['id'])
                     json.dump(content, outfile, indent=1)
         if idx % 1000 == 0:
             print(" " + str(idx) + " / " + str(archive.namelist().__len__()))
@@ -164,4 +164,4 @@ def metabolites_to_json():
 
 if __name__ == "__main__":
     spectras_to_json()
-    metabolites_to_json()
+    # metabolites_to_json()

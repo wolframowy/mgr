@@ -1,4 +1,5 @@
-from django.shortcuts import render
+from django.shortcuts import render, Http404
+from django.http import HttpResponseNotFound
 import json
 
 from ..models import Spectra, Metabolite
@@ -6,12 +7,21 @@ from ..reg_param.models.registration_parameter import RegistrationParameter, Met
 
 
 def reg_param(request):
+    if request.method == 'POST':
+        return reg_parm_post(request)
+    # if request.method == 'GET':
+    raise Http404
+
+
+def reg_parm_post(request):
     met_reg = []
     payload = json.loads(request.body)
     selected_ids = []
     for sel in payload['selected']:
         selected_ids.append(sel['id'])
     mets = list(Metabolite.objects.filter(id__in=selected_ids))
+    if mets.__len__() == 0:
+        return HttpResponseNotFound("Metabolites not found in database")
     for met in mets:
         new_met_reg = MetaboliteRegistration(name=met.name, m_1=met.average_molecular_weight)
         spec_ids = []

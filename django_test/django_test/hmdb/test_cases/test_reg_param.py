@@ -1,8 +1,6 @@
-from django.test import TestCase, RequestFactory
+from django.test import TestCase
 from django.urls import reverse
-from django.contrib.auth.models import AnonymousUser
 
-from ..subviews.reg_param import *
 from ..models import Metabolite, Spectra, Spectrum, SpectrumArray, MsMs, MsMsPeakArray, MsMsPeak
 
 
@@ -50,13 +48,17 @@ class RegParamTest(TestCase):
     def setUp(self):
         create_test_data()
 
+    def tearDown(self):
+        Metabolite.objects.filter(id=1).delete()
+        Spectra.objects.filter(id__in=[4, 5]).delete()
+
     def test_mock_data_creation(self):
         all_mets = list(Metabolite.objects.all())
         self.assertEqual(all_mets.__len__(), 1)
         all_spectra = list(Spectra.objects.all())
         self.assertEqual(all_spectra.__len__(), 2)
 
-    def test_reg_param_view(self):
+    def test_reg_param_view_post(self):
         payload = {
             "minimal_intensity": 30,
             "selected": [
@@ -69,3 +71,19 @@ class RegParamTest(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(met_reg.__len__(), 1)
         self.assertEqual(met_reg[0].registration_params.__len__(), 5)
+
+    def test_reg_param_view_post_404(self):
+        payload = {
+            "minimal_intensity": 30,
+            "selected": [
+                {"name": "1,3-Diaminopropane",
+                 "id": 25}
+            ]
+        }
+        response = self.client.post(reverse('hmdb:reg_param'), payload, content_type='application/json')
+        self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.content.decode(), 'Metabolites not found in database')
+
+    def test_reg_param_viet_get(self):
+        response = self.client.get(reverse('hmdb:reg_param'))
+        self.assertEqual(response.status_code, 404)

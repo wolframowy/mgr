@@ -9,7 +9,8 @@ from ..reg_param.models.registration_parameter import RegistrationParameter, Met
 def reg_param(request):
     if request.method == 'POST':
         return reg_parm_post(request)
-    # if request.method == 'GET':
+    if request.method == 'GET':
+        return reg_parm_get(request)
     raise Http404
 
 
@@ -39,3 +40,7 @@ def reg_parm_post(request):
         met_reg.append(new_met_reg)
     context = {'met_reg': met_reg}
     return render(request, 'hmdb/reg_parm.html', context)
+
+
+def reg_parm_get(request):
+    return render(request, 'hmdb/reg_parm.html')

@@ -1,0 +1,23 @@
+{% load staticfiles %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'hmdb/style.css' %}">
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {% block title %}
+        <title>Title</title>
+    {% endblock %}
+</head>
+<body>
+<div class="main_container">
+{% block sidebar %}
+ <!-- default navigation block -->
+{% endblock %}
+{% block content %}
+ <!-- main content -->
+{% endblock %}
+</div>
+</body>
+</html>

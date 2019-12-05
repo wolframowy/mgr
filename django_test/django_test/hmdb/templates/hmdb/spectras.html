@@ -1,3 +1,22 @@
+{% extends "hmdb/navbar.html" %}
+
+{% block title %}
+    <title>HMDB Spectras</title>
+{% endblock %}
+
+{% block content %}
+    {% if spectras %}
+        <ul>
+        {% for spectra in spectras %}
+            <li>{{ spectra.ms_ms.instrument_type }}</li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>No spectras are available.</p>
+    {% endif %}
+{% endblock %}
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>

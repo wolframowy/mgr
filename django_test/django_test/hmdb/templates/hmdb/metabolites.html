@@ -1,18 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
+{% extends "hmdb/navbar.html" %}
+
+{% block title %}
     <title>HMDB Metabolites</title>
-</head>
-<body>
-{% if metabolites %}
-    <ul>
-    {% for met in metabolites %}
-        <li>{{ met.name }}</li>
-    {% endfor %}
-    </ul>
-{% else %}
-    <p>No metabolites are available.</p>
-{% endif %}
-</body>
-</html>
+{% endblock %}
+
+{% block content %}
+    {% if metabolites %}
+        <ul>
+        {% for met in metabolites %}
+            <li>{{ met.name }}</li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>No metabolites are available.</p>
+    {% endif %}
+{% endblock %}

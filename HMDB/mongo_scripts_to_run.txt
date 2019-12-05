@@ -1,2 +1,0 @@
-hmdb.hmdb_metabolite.update({"spectra.spectrum":{$exists:true}},{$pull:{"spectra.spectrum":{"type":/^.*\:\:(?!MsMs).*$/}}},{multi:true})
-

@@ -1,10 +1,12 @@
+from typing import Union, Optional
+
 import xmltodict
 import json
 import zipfile
 import os
 import glob
 import shutil
-import  re
+import re
 
 NIL = {
     "@nil": "true"
@@ -13,7 +15,7 @@ NIL = {
 KEYS_TO_LIST = ["reference", "accession", "synonym", "alternative_parent", "substituent",
                 "external_descriptor", "root", "descendant", "property", "spectrum",
                 "cellular", "biospecimen", "tissue", "pathway", "concentration", "disease",
-                "protein", "identifier"]
+                "protein", "identifier", "ms-ms-peak"]
 
 KEYS_TO_OMIT = ["ontology"]
 
@@ -109,6 +111,19 @@ def file_to_json():
         json.dump(content, outfile, indent=1)
 
 
+def safe_convert(value_to_convert: str, type_to_convert_to: type) -> Optional[Union[int, float]]:
+    """
+    Converts value if it is not None, otherwise returns None.
+    :param value_to_convert:
+    :param type_to_convert_to: int of float. If you need more, add to the typing definition above.
+    :return: converted value
+    """
+    if value_to_convert is None:
+        return None
+    else:
+        return type_to_convert_to(value_to_convert)
+
+
 def spectras_to_json():
     dirname = "hmdb_all_spectra"
     if not os.path.exists(dirname):
@@ -121,7 +136,20 @@ def spectras_to_json():
             if 'ms-ms' in content:
                 with open(name.replace(".xml", ".json"), "w") as outfile:
                     content = change_vals_in_obj(content)
-                    content['id'] = int(content['ms_ms']['id'])
+
+                    # Convert strings to numbers for ease of searching in database
+                    content['id'] = safe_convert(content['ms_ms']['id'], int)
+                    content['ms_ms']['id'] = safe_convert(content['ms_ms']['id'], int)
+                    content['ms_ms']['peak_counter'] = safe_convert(content['ms_ms']['peak_counter'], int)
+                    content['ms_ms']['collision_energy_voltage'] = safe_convert(
+                        content['ms_ms']['collision_energy_voltage'], int)
+
+                    for peak in content['ms_ms']['ms_ms_peaks']['ms_ms_peak']:
+                        peak['id'] = safe_convert(peak['id'], int)
+                        peak['ms_ms_id'] = safe_convert(peak['ms_ms_id'], int)
+                        peak['mass_charge'] = safe_convert(peak['mass_charge'], float)
+                        peak['intensity'] = safe_convert(peak['intensity'], float)
+
                     json.dump(content, outfile, indent=1)
         if idx % 1000 == 0:
             print(" " + str(idx) + " / " + str(archive.namelist().__len__()))
@@ -151,7 +179,7 @@ def metabolites_to_json():
                         with open("error.log", "w") as errorlog:
                             json.dump(metabolite, errorlog, indent=1)
                         print("One metabolite is faulty!!!")
-                        assert(metabolite.items().__len__() == 1)
+                        assert (metabolite.items().__len__() == 1)
                     parsed_met = change_vals_in_obj(metabolite)
                     parsed_met['id'] = met_id
                     met_id += 1

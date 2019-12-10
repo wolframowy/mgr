@@ -1,23 +1,31 @@
-from django.shortcuts import render, Http404
-from django.http import HttpResponseNotFound
+from django.shortcuts import render
+from django.http import HttpResponseNotFound, Http404
+from django.http import JsonResponse
+from django.core import serializers
 import json
-
 
 from ..models import Spectra, Metabolite, MetaboliteNames
 from ..reg_param.models.registration_parameter import RegistrationParameter, MetaboliteRegistration
 
 
-def reg_param(request):
-    if request.method == 'POST':
-        return reg_parm_post(request)
-    if request.method == 'GET':
-        return reg_parm_get(request)
+def reg_param_get_async(request):
+    payload = request.GET
+    if payload['type'] == 'names':
+        return reg_parm_get_names(payload['value'])
+    if payload['type'] == 'metabolites':
+        return reg_parm_get_metabolites(payload)
     raise Http404
 
 
-def reg_parm_post(request):
+def reg_parm_get_names(value):
+    mets = MetaboliteNames.objects.filter(name__icontains=value)
+    serialized = serializers.serialize('python', mets)
+    data = [val['fields'] for val in serialized]
+    return JsonResponse(json.dumps(data), safe=False)
+
+
+def reg_parm_get_metabolites(payload):
     met_reg = []
-    payload = json.loads(request.body)
     selected_ids = payload['selected_ids']
     mets = list(Metabolite.objects.filter(id__in=selected_ids))
     if mets.__len__() == 0:
@@ -37,9 +45,5 @@ def reg_parm_post(request):
                                                                     intensity=peak.intensity,
                                                                     q2_3=peak.mass_charge))
         met_reg.append(new_met_reg)
-    context = {'met_reg': met_reg}
-    return render(request, 'hmdb/reg_parm.html', context)
+    return JsonResponse(json.dumps(met_reg))
 
-
-def reg_parm_get(request):
-    return render(request, 'hmdb/reg_parm.html')

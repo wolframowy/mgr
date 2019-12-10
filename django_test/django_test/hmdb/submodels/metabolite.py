@@ -325,7 +325,7 @@ class Metabolite(models.Model):
     secondary_accessions = models.EmbeddedModelField(
         model_container=SecondaryAccession, blank=True
     )
-    name = models.TextField('Name', max_length=50)
+    name = models.TextField('Name', max_length=100)
     cs_description = models.TextField('CS description', max_length=1000)
     description = models.TextField('Description', max_length=1000)
     synonyms = models.EmbeddedModelField(

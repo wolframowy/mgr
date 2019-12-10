@@ -61,10 +61,7 @@ class RegParamTest(TestCase):
     def test_reg_param_view_post(self):
         payload = {
             "minimal_intensity": 30,
-            "selected": [
-                {"name": "1,3-Diaminopropane",
-                 "id": 1}
-            ]
+            "selected_ids": [1]
         }
         response = self.client.post(reverse('hmdb:reg_param'), payload, content_type='application/json')
         met_reg = response.context['met_reg']
@@ -86,4 +83,4 @@ class RegParamTest(TestCase):
 
     def test_reg_param_viet_get(self):
         response = self.client.get(reverse('hmdb:reg_param'))
-        self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.status_code, 200)

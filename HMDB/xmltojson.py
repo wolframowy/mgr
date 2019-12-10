@@ -144,11 +144,14 @@ def spectras_to_json():
                     content['ms_ms']['collision_energy_voltage'] = safe_convert(
                         content['ms_ms']['collision_energy_voltage'], int)
 
-                    for peak in content['ms_ms']['ms_ms_peaks']['ms_ms_peak']:
-                        peak['id'] = safe_convert(peak['id'], int)
-                        peak['ms_ms_id'] = safe_convert(peak['ms_ms_id'], int)
-                        peak['mass_charge'] = safe_convert(peak['mass_charge'], float)
-                        peak['intensity'] = safe_convert(peak['intensity'], float)
+                    try:
+                        for peak in content['ms_ms']['ms_ms_peaks']['ms_ms_peak']:
+                            peak['id'] = safe_convert(peak['id'], int)
+                            peak['ms_ms_id'] = safe_convert(peak['ms_ms_id'], int)
+                            peak['mass_charge'] = safe_convert(peak['mass_charge'], float)
+                            peak['intensity'] = safe_convert(peak['intensity'], float)
+                    except KeyError:
+                        print(content['id'])
 
                     json.dump(content, outfile, indent=1)
         if idx % 1000 == 0:

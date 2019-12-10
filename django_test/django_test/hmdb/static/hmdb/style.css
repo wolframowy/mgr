@@ -5,7 +5,7 @@
     --color-dark-blue: #1D2D44;
     --color-blue: #3E5C76;
     --color-light-blue: #87A2C6;
-    --color-beige: #F8F5EC;
+    --color-beige: white;/*#F8F5EC;*/
 }
 
 body {
@@ -38,6 +38,8 @@ body {
 }
 .navbar li:hover {
     background-color: var(--color-blue);
+    box-shadow: 5px 5px var(--color-black);
+    border-radius: 5px;
 }
 a:link {
   text-decoration: none;
@@ -72,11 +74,18 @@ a:active {
     height: 2rem;
 }
 
-.reg-param-content {
+.reg-param-main {
     padding: 10px;
     flex: 1;
-    background-color: var(--color-light-blue);
+    /*background-color: var(--color-light-blue);*/
     color: var(--color-black);
-    border: 2px solid var(--color-black);
-    border-radius: 5px;
+    /*border: 2px solid var(--color-black);
+    border-radius: 5px;*/
+}
+
+.reg-param-section {
+    font-size: 1em;
+    font-weight: bold;
+    margin: 0 0 1em 0;
+    border-bottom: 2px solid var(--color-light-blue);
 }

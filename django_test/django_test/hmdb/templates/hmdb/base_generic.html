@@ -1,6 +1,7 @@
-{% load staticfiles %}
+{% load static %}
 
 <link rel="stylesheet" type="text/css" href="{% static 'hmdb/style.css' %}">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -20,4 +21,9 @@
 {% endblock %}
 </div>
 </body>
+
+{% block javascript %}
+ <!-- javascript files go here -->
+{% endblock %}
+
 </html>

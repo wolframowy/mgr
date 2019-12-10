@@ -1,4 +1,10 @@
 
+$("#metabolites_search").on('keyup', function (e) {
+    if (e.keyCode === 13) {
+        met_search_btn_click();
+    };
+});
+
 function addOnTableClick() {
     $("#metabolites_table tr").click(function(){
        $(this).addClass('selected').siblings().removeClass('selected');

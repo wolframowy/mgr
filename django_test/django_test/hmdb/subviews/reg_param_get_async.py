@@ -1,8 +1,6 @@
-from django.shortcuts import render
 from django.http import HttpResponseNotFound, Http404
 from django.http import JsonResponse
 from django.core import serializers
-import json
 
 from ..models import Spectra, Metabolite, MetaboliteNames
 from ..reg_param.models.registration_parameter import RegistrationParameter, MetaboliteRegistration
@@ -21,7 +19,7 @@ def reg_parm_get_names(value):
     mets = MetaboliteNames.objects.filter(name__icontains=value)
     serialized = serializers.serialize('python', mets)
     data = [val['fields'] for val in serialized]
-    return JsonResponse(json.dumps(data), safe=False)
+    return JsonResponse(data, safe=False)
 
 
 def reg_parm_get_metabolites(payload):
@@ -39,11 +37,11 @@ def reg_parm_get_metabolites(payload):
         spectra = list(Spectra.objects.filter(id__in=spec_ids).only('ms_ms'))
         for spectrum in spectra:
             for peak in spectrum.ms_ms.ms_ms_peaks.ms_ms_peak:
-                if peak.intensity >= payload['minimal_intensity']:
+                if peak.intensity >= float(payload['minimal_intensity']):
                     new_met_reg.add_reg_param(RegistrationParameter(e=spectrum.ms_ms.collision_energy_voltage,
                                                                     ionization_mode=spectrum.ms_ms.ionization_mode,
                                                                     intensity=peak.intensity,
-                                                                    q2_3=peak.mass_charge))
-        met_reg.append(new_met_reg)
-    return JsonResponse(json.dumps(met_reg))
+                                                                    q2_3=peak.mass_charge).to_json())
+        met_reg.append(new_met_reg.__dict__)
+    return JsonResponse(met_reg, safe=False)
 

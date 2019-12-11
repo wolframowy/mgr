@@ -7,6 +7,9 @@ class RegistrationParameter:
         self.intensity = intensity
         self.ionization_mode = ionization_mode
 
+    def to_json(self):
+        return self.__dict__
+
 
 class MetaboliteRegistration:
 

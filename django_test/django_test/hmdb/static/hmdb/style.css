@@ -5,7 +5,7 @@
     --color-dark-blue: #1D2D44;
     --color-blue: #3E5C76;
     --color-light-blue: #87A2C6;
-    --color-beige: white;/*#F8F5EC;*/
+    --color-beige: white;
 }
 
 body {
@@ -55,37 +55,4 @@ a:hover {
 
 a:active {
   text-decoration: underline;
-}
-
-.reg-param-container {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    margin: 8px 8px 8px 3px;
-}
-
-.reg-param-title {
-    background-color: var(--color-dark-blue);
-    color: var(--color-beige);
-    font-size: 2em;
-    padding: 10px;
-    border-radius: 5px;
-    margin: 0 0 2px 0;
-    height: 2rem;
-}
-
-.reg-param-main {
-    padding: 10px;
-    flex: 1;
-    /*background-color: var(--color-light-blue);*/
-    color: var(--color-black);
-    /*border: 2px solid var(--color-black);
-    border-radius: 5px;*/
-}
-
-.reg-param-section {
-    font-size: 1em;
-    font-weight: bold;
-    margin: 0 0 1em 0;
-    border-bottom: 2px solid var(--color-light-blue);
 }

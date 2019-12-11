@@ -30,10 +30,9 @@ function met_search_btn_click() {
         contentType: "application/json",
         dataType: "json",
         success: function(response){
-            var data = JSON.parse(response);
-            $.each(data, function(i, item) {
+            $.each(response, function(i, item) {
                 var $tr = $('<tr>').append(
-                    $('<td>', {css:{'visibility':'hidden'}}).text(item.met_id),
+                    $('<td>', {css:{'display':'none'}}).text(item.met_id),
                     $('<td>').text(item.name)
                 ).appendTo('#metabolites_table')
             });

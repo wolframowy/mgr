@@ -1,7 +1,8 @@
 from django.test import TestCase
 from django.urls import reverse
+import json
 
-from ..models import Metabolite, Spectra, Spectrum, SpectrumArray, MsMs, MsMsPeakArray, MsMsPeak
+from ..models import Metabolite, Spectra, Spectrum, SpectrumArray, MsMs, MsMsPeakArray, MsMsPeak, MetaboliteNames
 
 
 def create_test_data():
@@ -42,6 +43,10 @@ def create_test_data():
     spec5 = Spectra(id=5, ms_ms=spec5_msms)
     spec5.save()
 
+    MetaboliteNames(name="1,3-Diaminopropane", met_id=1).save()
+    MetaboliteNames(name="Name2", met_id=2).save()
+    MetaboliteNames(name="Name3", met_id=3).save()
+
 
 class RegParamTest(TestCase):
 
@@ -49,8 +54,9 @@ class RegParamTest(TestCase):
         create_test_data()
 
     def tearDown(self):
-        Metabolite.objects.filter(id=1).delete()
-        Spectra.objects.filter(id__in=[4, 5]).delete()
+        Metabolite.objects.all().delete()
+        Spectra.objects.all().delete()
+        MetaboliteNames.objects.all().delete()
 
     def test_mock_data_creation(self):
         all_mets = list(Metabolite.objects.all())
@@ -58,29 +64,36 @@ class RegParamTest(TestCase):
         all_spectra = list(Spectra.objects.all())
         self.assertEqual(all_spectra.__len__(), 2)
 
-    def test_reg_param_view_post(self):
+    def test_reg_param_view_get_names_async(self):
+        payload = {"type": "names",
+                   "value": "Name"}
+        response = self.client.get(reverse('hmdb:reg_param_get_async'), payload, content_type='application/json')
+        names = json.loads(response.content.decode())
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(names.__len__(), 2)
+
+    def test_reg_param_view_get_metabolite_async(self):
         payload = {
+            "type": "metabolites",
             "minimal_intensity": 30,
             "selected_ids": [1]
         }
-        response = self.client.post(reverse('hmdb:reg_param'), payload, content_type='application/json')
-        met_reg = response.context['met_reg']
+        response = self.client.get(reverse('hmdb:reg_param_get_async'), payload, content_type='application/json')
+        met_reg = json.loads(response.content.decode())
         self.assertEqual(response.status_code, 200)
         self.assertEqual(met_reg.__len__(), 1)
-        self.assertEqual(met_reg[0].registration_params.__len__(), 5)
+        self.assertEqual(met_reg[0]['registration_params'].__len__(), 5)
 
-    def test_reg_param_view_post_404(self):
+    def test_reg_param_view_get_metabolite_async_404(self):
         payload = {
+            "type": "metabolites",
             "minimal_intensity": 30,
-            "selected": [
-                {"name": "1,3-Diaminopropane",
-                 "id": 25}
-            ]
+            "selected_ids": [25]
         }
-        response = self.client.post(reverse('hmdb:reg_param'), payload, content_type='application/json')
+        response = self.client.get(reverse('hmdb:reg_param_get_async'), payload, content_type='application/json')
         self.assertEqual(response.status_code, 404)
         self.assertEqual(response.content.decode(), 'Metabolites not found in database')
 
-    def test_reg_param_viet_get(self):
+    def test_reg_param_view_get(self):
         response = self.client.get(reverse('hmdb:reg_param'))
         self.assertEqual(response.status_code, 200)

@@ -2,8 +2,10 @@ from django.http import HttpResponseNotFound, Http404
 from django.http import JsonResponse
 from django.core import serializers
 
+import json
+
 from ..models import Spectra, Metabolite, MetaboliteNames
-from ..reg_param.models.registration_parameter import RegistrationParameter, MetaboliteRegistration
+from ..reg_param.models.registration_parameter import RegistrationParameter, MetaboliteRegistration, SpectrumParameter
 
 
 def reg_param_get_async(request):
@@ -24,7 +26,7 @@ def reg_parm_get_names(value):
 
 def reg_parm_get_metabolites(payload):
     met_reg = []
-    selected_ids = payload['selected_ids']
+    selected_ids = json.loads(payload['selected_ids'])
     mets = list(Metabolite.objects.filter(id__in=selected_ids))
     if mets.__len__() == 0:
         return HttpResponseNotFound("Metabolites not found in database")
@@ -36,12 +38,13 @@ def reg_parm_get_metabolites(payload):
                 spec_ids.append(spectrum.spectrum_id)
         spectra = list(Spectra.objects.filter(id__in=spec_ids).only('ms_ms'))
         for spectrum in spectra:
+            new_spec_param = SpectrumParameter(e=spectrum.ms_ms.collision_energy_voltage,
+                                               ionization_mode=spectrum.ms_ms.ionization_mode)
             for peak in spectrum.ms_ms.ms_ms_peaks.ms_ms_peak:
                 if peak.intensity >= float(payload['minimal_intensity']):
-                    new_met_reg.add_reg_param(RegistrationParameter(e=spectrum.ms_ms.collision_energy_voltage,
-                                                                    ionization_mode=spectrum.ms_ms.ionization_mode,
-                                                                    intensity=peak.intensity,
-                                                                    q2_3=peak.mass_charge).to_json())
+                    new_spec_param.add_reg_param(RegistrationParameter(intensity=peak.intensity,
+                                                                       q2_3=peak.mass_charge).to_dict())
+            new_met_reg.add_spectrum_param(new_spec_param.to_dict())
         met_reg.append(new_met_reg.__dict__)
     return JsonResponse(met_reg, safe=False)
 

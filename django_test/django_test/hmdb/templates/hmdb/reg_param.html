@@ -18,9 +18,17 @@
                 <div class="reg_param_search_container">
                     <div>
                         <div class="reg_param_section"> Metabolite search </div>
-                        <input id="metabolites_search" type="text" placeholder="Search metabolite...">
-                        <input id="minimal_intensity" type="number" placeholder="Minimal intensity...">
-                        <button id="metabolites_search_btn" onclick="met_search_btn_click()"> Search</button>
+                        <div class="selection_section">
+                            <div class="input_container">
+                                <div>Search</div>
+                                <input id="metabolites_search" type="text" placeholder="Search metabolite...">
+                            </div>
+                            <div class="input_container">
+                                <div>Minimal intensity</div>
+                                <input id="minimal_intensity" type="number" min="0" max="100" value="20">
+                            </div>
+                            <button id="metabolites_search_btn" onclick="met_search_btn_click()"> Search</button>
+                        </div>
                         <div class="reg_parm_loading" style="display:none">LOADING...</div>
                     </div>
                     <div class="table_scroll">
@@ -30,7 +38,40 @@
                 </div>
                 <div class="reg_parm_table_container">
                     <div class="reg_param_section"> Registration parameters table </div>
-                    TEST
+                    <div class="reg_parm_single_met">
+                        <div class="metabolite_name">MET NAME</div>
+                        <div class="metabolite_avg_mol_wgt">average_molecular_weight</div>
+                        <div class="reg_param_list_container table_scroll">
+                            <div class="reg_parm_spectrum">
+                                <div class="energy_voltage">E1</div>
+                                <div class="ionization_mode">Ionization Mode1</div>
+                                <table class="reg_parm_spectrum_table">
+                                    <tr>
+                                        <th>Q1</th>
+                                        <th>Q2/3</th>
+                                    </tr>
+                                    <tr>
+                                        <td>AMV +/- 1</td>
+                                        <td>128</td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div>
+                                <div>E2</div>
+                                <div>Ionization Mode2</div>
+                                <table>
+                                    <tr>
+                                        <th>Q1</th>
+                                        <th>Q2/3</th>
+                                    </tr>
+                                    <tr>
+                                        <td>AMV +/- 1</td>
+                                        <td>178</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

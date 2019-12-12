@@ -76,19 +76,21 @@ class RegParamTest(TestCase):
         payload = {
             "type": "metabolites",
             "minimal_intensity": 30,
-            "selected_ids": [1]
+            "selected_ids": "[1]"      # ids are in a string, because in jquery we need to stringify it
         }
         response = self.client.get(reverse('hmdb:reg_param_get_async'), payload, content_type='application/json')
         met_reg = json.loads(response.content.decode())
         self.assertEqual(response.status_code, 200)
         self.assertEqual(met_reg.__len__(), 1)
-        self.assertEqual(met_reg[0]['registration_params'].__len__(), 5)
+        self.assertEqual(met_reg[0]['spectra_params'].__len__(), 2)
+        self.assertEqual(met_reg[0]['spectra_params'][0]['reg_param'].__len__(), 2)
+        self.assertEqual(met_reg[0]['spectra_params'][1]['reg_param'].__len__(), 3)
 
     def test_reg_param_view_get_metabolite_async_404(self):
         payload = {
             "type": "metabolites",
             "minimal_intensity": 30,
-            "selected_ids": [25]
+            "selected_ids": "[25]"      # ids are in a string, because in jquery we need to stringify it
         }
         response = self.client.get(reverse('hmdb:reg_param_get_async'), payload, content_type='application/json')
         self.assertEqual(response.status_code, 404)

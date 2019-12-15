@@ -23,12 +23,17 @@
     color: var(--color-black);
 }
 
+.separator {
+    border-bottom: 2px dashed var(--color-blue);
+    margin: 0.5em 0 0.5em 0;
+}
+
 .reg_param_section {
-    font-size: 1em;
+    font-size: 1.2em;
     font-weight: bold;
     margin: 0 0 1em 0;
     padding: 0 0 0.2em 0.5em;
-    border-bottom: 2px solid var(--color-light-blue);
+    border-bottom: 2px solid var(--color-blue);
 }
 
 .reg_param_content {
@@ -42,8 +47,7 @@
     display: flex;
     flex-direction: column;
     flex: 1;
-    max-width: 50%;
-    border-right : 2px solid var(--color-light-blue);
+    border-right : 2px solid var(--color-blue);
 }
 
 .reg_parm_table_container {
@@ -55,6 +59,7 @@
 .table_scroll {
     flex: 1 1 0;
     margin: 0.5em 2px 0 2px;
+    padding: 2px;
     overflow: auto;
 }
 
@@ -68,4 +73,58 @@
 }
 
 .reg_parm_met_table {
+    border-collapse: collapse;
+    width: 100%;
+}
+.reg_parm_met_table td {
+    border: 1px solid var(--color-black);
+}
+.reg_parm_met_table tr:nth-child(even) {
+    background-color: var(--color-light-blue);
+}
+.reg_parm_met_table tr:nth-child(odd) {
+    background-color: var(--color-beige);
+}
+.reg_parm_met_table tr.selected {
+    background-color: var(--color-dark-blue);
+    color: var(--color-beige);
+}
+.reg_parm_met_table tr td:hover {
+    border: 3px solid var(--color-black);
+}
+
+.reg_parm_single_met {
+    padding: 0 1em 0 1em;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.metabolite_name {
+    font-size: 1em;
+    font-weight: bold;
+}
+
+.reg_parm_spectrum {
+    padding: 0.5em 0 0.5em 0;
+}
+
+.reg_parm_spectrum_table {
+    border-collapse: collapse;
+}
+.reg_parm_spectrum_table th {
+    border: 1px solid var(--color-blue);
+    background-color: var(--color-dark-blue);
+    color: var(--color-beige);
+    min-width: 6em;
+}
+.reg_parm_spectrum_table td {
+    border: 1px solid var(--color-black);
+    min-width: 8em;
+}
+.reg_parm_spectrum_table tr:nth-child(even) {
+    background-color: var(--color-light-blue);
+}
+.reg_parm_spectrum_table tr:nth-child(odd) {
+    background-color: var(--color-beige);
 }

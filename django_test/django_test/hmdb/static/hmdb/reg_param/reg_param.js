@@ -37,6 +37,7 @@ function createRegistrationParamView(response) {
             })
             var reg_parm_spectrum = $('<div>', {class: 'reg_parm_spectrum'})
                 .append(
+                    $('<div>', {class: 'separator'}),
                     $('<div>', {class: 'energy_voltage'}).text('Voltage: ' + spectrum.e + 'V'),
                     $('<div>', {class: 'ionization_mode'}).text('Ionization mode: ' + spectrum.ionization_mode),
                     table

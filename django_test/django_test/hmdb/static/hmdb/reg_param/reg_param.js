@@ -5,7 +5,7 @@ $(document).ready(function() {
         };
     });
 
-    $('#minimal_intensity').on('keyup', function (e) {
+    $('#minimal_intensity').on('keyup change', function (e) {
         if ($(this).val() > 100) {
             $(this).val(100);
         }
@@ -82,6 +82,7 @@ function createRegistrationParamView(response) {
         $('.reg_parm_table_container').append(single_met);
     })
     $('.reg_parm_table_container').show()
+    filterByIntensity($('#minimal_intensity').val());
     colorTable('reg_parm_spectrum_table');
 }
 

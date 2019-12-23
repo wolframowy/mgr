@@ -74,11 +74,13 @@
 
 .simple_search {
     display: flex;
+    align-items: center;
 }
 
 .advanced_search {
     display: flex;
     flex-wrap: wrap;
+    align-items: center;
 }
 
 .input_container {

@@ -1,10 +1,11 @@
 from django.http import HttpResponseNotFound, Http404
 from django.http import JsonResponse
 from django.core import serializers
+from django.db.models import Q
 
 import json
 
-from ..models import Spectra, Metabolite, MetaboliteNames
+from ..models import Spectra, Metabolite, MetaboliteNames, Biolocation
 from ..reg_param.models.registration_parameter import RegistrationParameter, MetaboliteRegistration, SpectrumParameter
 
 
@@ -55,9 +56,29 @@ def reg_parm_get_metabolites(payload):
 
 
 def reg_parm_get_biospecimen():
-    biospecimens = Metabolite.objects.all()
-    return JsonResponse(biospecimens)
+    biospecimens = Biolocation.objects.all()
+    serialized = serializers.serialize('python', biospecimens)
+    data = [val['fields'] for val in serialized]
+    return JsonResponse(data, safe=False)
 
 
 def reg_parm_get_metabolites_advanced(payload):
-    return JsonResponse()
+    q = Q()
+    if payload['mass_min'] != '':
+        q &= Q(monisotopic_molecular_weight__gte=payload['mass_min'])
+    if payload['mass_max'] != '':
+        q &= Q(monisotopic_molecular_weight__lte=payload['mass_max'])
+    if payload['biolocation'] != '':
+        q &= Q(biospecimen_locations__icontains=payload['biolocation'])
+    if payload['name'] != '':
+        q &= Q(name__icontains=payload['name'])
+    if payload['super_class'] != '':
+        q &= Q(super_class__icontains=payload['super_class'])
+    if payload['main_class'] != '':
+        q &= Q(main_class__icontains=payload['main_class'])
+    if payload['sub_class'] != '':
+        q &= Q(sub_class__icontains=payload['sub_class'])
+    mets = MetaboliteNames.objects.filter(q)
+    serialized = serializers.serialize('python', mets)
+    data = [val['fields'] for val in serialized]
+    return JsonResponse(data, safe=False)

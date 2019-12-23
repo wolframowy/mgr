@@ -14,6 +14,8 @@ $(document).ready(function() {
         };
         filterByIntensity($(this).val());
     });
+
+    loadBiospecimenLocationList();
 })
 
 function filterByIntensity(intensity) {
@@ -33,6 +35,7 @@ function createRegistrationParamView(response) {
     $.each(response, function(i, metabolite) {
         var reg_params = $('<div>', {class: 'reg_param_list_container table_scroll'});
         $.each(metabolite.spectra_params, function(mode, spectra) {
+        if (spectra.length === 0) return;
         var table = $('<table>', {class: 'reg_parm_spectrum_table'})
             .append(
                 $('<tr>').append(
@@ -104,6 +107,18 @@ function addOnTableClick() {
     });
 }
 
+function fill_met_names_table(response) {
+    $.each(response, function(i, item) {
+        var $tr = $('<tr>').append(
+            $('<td>', {css:{'display':'none'}}).text(item.met_id),
+            $('<td>').text(item.name)
+        ).appendTo('#metabolites_table')
+    });
+    colorTable('reg_parm_met_table')
+    $('.reg_parm_loading').hide()
+    addOnTableClick();
+}
+
 function met_search_btn_click() {
     var value = $("#metabolites_search").val().toLowerCase();
     if (value === "") {
@@ -121,17 +136,48 @@ function met_search_btn_click() {
         contentType: "application/json",
         dataType: "json",
         timeout: 60000
-    }).done(function(response){
-        $.each(response, function(i, item) {
-            var $tr = $('<tr>').append(
-                $('<td>', {css:{'display':'none'}}).text(item.met_id),
-                $('<td>').text(item.name)
-            ).appendTo('#metabolites_table')
-        });
-        colorTable('reg_parm_met_table')
-        $('.reg_parm_loading').hide()
-        addOnTableClick();
-    }).fail(function(error) {
+    }).done(fill_met_names_table)
+    .fail(function(error) {
+        alert('ERROR!')
+    })
+}
+
+function checkIfAllEmpty() {
+    for (var i = 0; i < arguments.length; ++i) {
+        if(arguments[i] !== '') return false;
+    };
+    return true;
+}
+
+function met_adv_search_btn_click() {
+    var name = $("#adv_search_name").val().toLowerCase();
+    var super_class = $("#adv_search_super_class").val().toLowerCase();
+    var main_class = $("#adv_search_main_class").val().toLowerCase();
+    var sub_class = $("#adv_search_sub_class").val().toLowerCase();
+    var biolocation = $("#adv_search_biospecimen").val().toLowerCase();
+    var mass_min = $("#adv_search_mass_min").val().toLowerCase();
+    var mass_max = $("#adv_search_mass_max").val().toLowerCase();
+    if (checkIfAllEmpty(name, super_class, sub_class, main_class, biolocation, mass_min, mass_max)) {
+        $("#metabolites_table tr").show().children().show();
+        return;
+    }
+    $.ajax({
+        url: async_get_url,
+        type: "GET",
+        data: {type:"advanced",
+            name: name,
+            super_class: super_class,
+            main_class: main_class,
+            sub_class: sub_class,
+            biolocation: biolocation,
+            mass_min: mass_min,
+            mass_max: mass_max
+        },
+        contentType: "application/json",
+        dataType: "json",
+        timeout: 60000
+    }).done(fill_met_names_table)
+    .fail(function(error) {
         alert('ERROR!')
     })
 }
@@ -139,4 +185,21 @@ function met_search_btn_click() {
 function search_switch() {
     $('.simple_search').toggle();
     $('.advanced_search').toggle();
+}
+
+function loadBiospecimenLocationList() {
+    $.ajax({
+        url: async_get_url,
+        type: "GET",
+        data: {type:"biospecimen"},
+        contentType: "application/json",
+        dataType: "json",
+        timeout: 60000
+    }).done(function(response) {
+        $.each(response, function(i, biolocation) {
+            $('#biospecimen_locations').append($('<option>').attr('value', biolocation.name))
+        })
+    }).fail(function(error) {
+        alert('ERROR!')
+    })
 }

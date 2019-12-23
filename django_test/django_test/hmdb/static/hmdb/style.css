@@ -13,6 +13,15 @@ body {
     font: 15px Arial, sans-serif;
 }
 
+button {
+    background-color: var(--color-blue);
+    color: var(--color-beige);
+    border-radius: 5px;
+    border-color: var(--color-dark-blue);
+    margin: 0 0.1em;
+    height: 2.5em;
+}
+
 .main_container {
     width: 100%;
     height: 100%;

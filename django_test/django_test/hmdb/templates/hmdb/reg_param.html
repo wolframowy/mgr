@@ -42,7 +42,9 @@
                                 </div>
                                 <div class="input_container">
                                     <div>Biospeicmen location</div>
-                                    <input id="adv_search_biospecimen" type="text">
+                                    <input id="adv_search_biospecimen" type="text" list="biospecimen_locations">
+                                    <datalist id="biospecimen_locations">
+                                    </datalist>
                                 </div>
                                 <div class="input_container">
                                     <div style="text-align: center">Mass</div>
@@ -52,7 +54,7 @@
                                         <input id="adv_search_mass_max" type="number" placeholder="max">
                                     </div>
                                 </div>
-                                <button id="adv_metabolites_search_btn" onclick="met_search_btn_click()"> Search</button>
+                                <button id="adv_metabolites_search_btn" onclick="met_adv_search_btn_click()"> Search</button>
                                 <button id="search_switch_adv" onclick="search_switch()"> Simple search</button>
                             </div>
                         </div>

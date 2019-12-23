@@ -29,11 +29,15 @@
 }
 
 .reg_param_section {
+    height: 2em;
+    display: flex;
     font-size: 1.2em;
     font-weight: bold;
     margin: 0 0 1em 0;
     padding: 0 0 0.2em 0.5em;
     border-bottom: 2px solid var(--color-blue);
+    align-items: center;
+    justify-content: space-between;
 }
 
 .reg_param_content {
@@ -65,11 +69,24 @@
 
 .selection_section {
     display: flex;
+    flex-direction: column;
+}
+
+.simple_search {
+    display: flex;
+}
+
+.advanced_search {
+    display: flex;
+    flex-wrap: wrap;
 }
 
 .input_container {
+    font-size: initial;
+    font-weight: normal;
     display: flex;
     flex-direction: column;
+    padding: 0 0.2em 0 0.2em;
 }
 
 .reg_parm_met_table {
@@ -103,6 +120,15 @@
 .metabolite_name {
     font-size: 1em;
     font-weight: bold;
+    color: var(--color-black)
+}
+
+a.metabolite_name:link, a.metabolite_name:visited {
+    text-decoration: none;
+}
+
+a.metabolite_name:hover, a.metabolite_name:active {
+    text-decoration: underline;
 }
 
 .reg_parm_spectrum {
@@ -121,10 +147,19 @@
 .reg_parm_spectrum_table td {
     border: 1px solid var(--color-black);
     min-width: 8em;
+    text-align: center;
 }
-.reg_parm_spectrum_table tr:nth-child(even) {
+.reg_parm_spectrum_table > .table_bottom_border {
+    border-bottom: 3px solid var(--color-black);
+}
+.reg_parm_spectrum_table tr.even {
     background-color: var(--color-light-blue);
 }
-.reg_parm_spectrum_table tr:nth-child(odd) {
+.reg_parm_spectrum_table tr.odd {
     background-color: var(--color-beige);
+}
+
+.ionization_mode {
+    font-weight: bold;
+    margin: 0 0 0.2em 0;
 }

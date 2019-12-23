@@ -12,8 +12,8 @@ def create_test_data():
             Spectrum(spectrum_id=5)
         ]
     )
-    met = Metabolite(id=1, name="1,3-Diaminopropane", average_molecular_weight=74.1249,
-                     spectra=spectra_list, secondary_accessions=None, synonyms=None, )
+    met = Metabolite(id=1, name="1,3-Diaminopropane", monisotopic_molecular_weight=74.1249,
+                     spectra=spectra_list, secondary_accessions=None, synonyms=None, accession=['HMDB0000002'])
     met.save()
     spec4_msms = MsMs(
         collision_energy_voltage=10,
@@ -75,16 +75,14 @@ class RegParamTest(TestCase):
     def test_reg_param_view_get_metabolite_async(self):
         payload = {
             "type": "metabolites",
-            "minimal_intensity": 30,
             "selected_ids": "[1]"      # ids are in a string, because in jquery we need to stringify it
         }
         response = self.client.get(reverse('hmdb:reg_param_get_async'), payload, content_type='application/json')
         met_reg = json.loads(response.content.decode())
         self.assertEqual(response.status_code, 200)
         self.assertEqual(met_reg.__len__(), 1)
-        self.assertEqual(met_reg[0]['spectra_params'].__len__(), 2)
-        self.assertEqual(met_reg[0]['spectra_params'][0]['reg_param'].__len__(), 2)
-        self.assertEqual(met_reg[0]['spectra_params'][1]['reg_param'].__len__(), 3)
+        self.assertEqual(met_reg[0]['spectra_params']['positive'][0]['reg_param'].__len__(), 2)
+        self.assertEqual(met_reg[0]['spectra_params']['negative'][0]['reg_param'].__len__(), 5)
 
     def test_reg_param_view_get_metabolite_async_404(self):
         payload = {

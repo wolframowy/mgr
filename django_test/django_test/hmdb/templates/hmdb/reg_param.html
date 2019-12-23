@@ -1,17 +1,13 @@
 {% extends "hmdb/navbar.html" %}
 
 {% block title %}
-    <title>Metabolite registration parameters</title>
-{% endblock %}
-
-{% block page_title %}
-    <div>Metabolite registration parameters search</div>
+    <title>MRM table generator for ESI-MS/MS</title>
 {% endblock %}
 
 {% block content %}
     <div class="reg_param_container">
         <div class="reg_param_title">
-            Metabolite registration parameter search
+            MRM table generator for ESI-MS/MS
         </div>
         <div class="reg_param_main">
             <div class="reg_param_content">
@@ -19,15 +15,46 @@
                     <div>
                         <div class="reg_param_section"> Metabolite search </div>
                         <div class="selection_section">
-                            <div class="input_container">
-                                <div>Search</div>
-                                <input id="metabolites_search" type="text" placeholder="Search metabolite...">
+                            <div class="simple_search">
+                                <div class="input_container">
+                                    <div>Search</div>
+                                    <input id="metabolites_search" type="text" placeholder="Search metabolite...">
+                                </div>
+                                <button id="metabolites_search_btn" onclick="met_search_btn_click()"> Search</button>
+                                <button id="search_switch_simple" onclick="search_switch()"> Advanced search</button>
                             </div>
-                            <div class="input_container">
-                                <div>Minimal intensity</div>
-                                <input id="minimal_intensity" type="number" min="0" max="100" value="20">
+                            <div class="advanced_search" style="display:none">
+                                <div class="input_container">
+                                    <div>Name</div>
+                                    <input id="adv_search_name" type="text">
+                                </div>
+                                <div class="input_container">
+                                    <div>Super class</div>
+                                    <input id="adv_search_super_class" type="text">
+                                </div>
+                                <div class="input_container">
+                                    <div>Main class</div>
+                                    <input id="adv_search_main_class" type="text">
+                                </div>
+                                <div class="input_container">
+                                    <div>Sub class</div>
+                                    <input id="adv_search_sub_class" type="text">
+                                </div>
+                                <div class="input_container">
+                                    <div>Biospeicmen location</div>
+                                    <input id="adv_search_biospecimen" type="text">
+                                </div>
+                                <div class="input_container">
+                                    <div style="text-align: center">Mass</div>
+                                    <div>
+                                        <input id="adv_search_mass_min" type="number" placeholder="min">
+                                        -
+                                        <input id="adv_search_mass_max" type="number" placeholder="max">
+                                    </div>
+                                </div>
+                                <button id="adv_metabolites_search_btn" onclick="met_search_btn_click()"> Search</button>
+                                <button id="search_switch_adv" onclick="search_switch()"> Simple search</button>
                             </div>
-                            <button id="metabolites_search_btn" onclick="met_search_btn_click()"> Search</button>
                         </div>
                         <div class="reg_parm_loading" style="display:none">LOADING...</div>
                     </div>
@@ -37,40 +64,11 @@
                     </div>
                 </div>
                 <div class="reg_parm_table_container" style="display:none">
-                    <div class="reg_param_section"> Registration parameters table </div>
-                    <div class="reg_parm_single_met">
-                        <div class="metabolite_name">MET NAME</div>
-                        <div class="metabolite_avg_mol_wgt">average_molecular_weight</div>
-                        <div class="reg_param_list_container table_scroll">
-                            <div class="reg_parm_spectrum">
-                                <div class="separator"></div>
-                                <div class="energy_voltage">E1</div>
-                                <div class="ionization_mode">Ionization Mode1</div>
-                                <table class="reg_parm_spectrum_table">
-                                    <tr>
-                                        <th>Q1</th>
-                                        <th>Q2/3</th>
-                                    </tr>
-                                    <tr>
-                                        <td>AMV +/- 1</td>
-                                        <td>128</td>
-                                    </tr>
-                                </table>
-                            </div>
-                            <div>
-                                <div>E2</div>
-                                <div>Ionization Mode2</div>
-                                <table>
-                                    <tr>
-                                        <th>Q1</th>
-                                        <th>Q2/3</th>
-                                    </tr>
-                                    <tr>
-                                        <td>AMV +/- 1</td>
-                                        <td>178</td>
-                                    </tr>
-                                </table>
-                            </div>
+                    <div class="reg_param_section">
+                        <div>Registration parameters table</div>
+                        <div class="input_container">
+                            <div>Minimal intensity</div>
+                            <input id="minimal_intensity" type="number" min="0" max="100" value="20">
                         </div>
                     </div>
                 </div>

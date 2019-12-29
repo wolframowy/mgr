@@ -35,39 +35,41 @@ function createRegistrationParamView(response) {
     $.each(response, function(i, metabolite) {
         var reg_params = $('<div>', {class: 'reg_param_list_container table_scroll'});
         $.each(metabolite.spectra_params, function(mode, spectra) {
-        if (spectra.length === 0) return;
-        var table = $('<table>', {class: 'reg_parm_spectrum_table'})
-            .append(
-                $('<tr>').append(
-                    $('<th>').text('Voltage'),
-                    $('<th>').text('Q1'),
-                    $('<th>').text('Q2/3'),
-                    $('<th>').text('Intensity')
-                )
-        );
-            $.each(spectra, function(i, spectrum) {
-                $.each(spectrum.reg_param, function(i, param) {
-                    var tr = $('<tr>').append(
-                        $('<td>').text(spectrum.e),
-                        $('<td>').text(parseFloat(metabolite.m_1) +
-                            (spectrum.ionization_mode.toLowerCase() === 'positive' ? 1 : -1)),
-                        $('<td>').text(param.q2_3),
-                        $('<td>').text(param.intensity)
-                    );
-                    if(i === spectrum.reg_param.length - 1) {
-                        tr.addClass("table_bottom_border");
-                    };
-                    table.append(tr);
-                })
-            });
-        var reg_parm_spectrum = $('<div>', {class: 'reg_parm_spectrum'})
-            .append(
-                $('<div>', {class: 'separator'}),
-                $('<div>', {class: 'ionization_mode'}).text('Ionization mode: ' + mode),
-                table
+            if (spectra.length === 0) {
+                reg_params.append(
+                    $('<div>').text('No spectra found for this compound.')
+                );
+            };
+            var table = $('<table>', {class: 'reg_parm_spectrum_table'})
+                .append(
+                    $('<tr>').append(
+                        $('<th>').text('Voltage'),
+                        $('<th>').text('Q1'),
+                        $('<th>').text('Q2/3'),
+                        $('<th>').text('Intensity')
+                    )
             );
+                $.each(spectra, function(i, spectrum) {
+                    $.each(spectrum.reg_param, function(i, param) {
+                        var tr = $('<tr>').append(
+                            $('<td>').text(spectrum.e),
+                            $('<td>').text(parseFloat(metabolite.m_1) +
+                                (spectrum.ionization_mode.toLowerCase() === 'positive' ? 1 : -1)),
+                            $('<td>').text(param.q2_3),
+                            $('<td>').text(param.intensity)
+                        );
+                        table.append(tr);
+                    })
+                    table.append($('<div>', {class: 'table_separator'}));
+                });
+            var reg_parm_spectrum = $('<div>', {class: 'reg_parm_spectrum'})
+                .append(
+                    $('<div>', {class: 'separator'}),
+                    $('<div>', {class: 'ionization_mode'}).text('Ionization mode: ' + mode),
+                    table
+                );
 
-        reg_params.append(reg_parm_spectrum);
+            reg_params.append(reg_parm_spectrum);
         });
         var single_met = $('<div>', {class: 'reg_parm_single_met'})
             .append(
@@ -162,6 +164,7 @@ function met_adv_search_btn_click() {
         $("#metabolites_table tr").show().children().show();
         return;
     }
+    $('#metabolites_table').empty();
     $.ajax({
         url: async_get_url,
         type: "GET",

@@ -4,3 +4,4 @@
 DB
 __pycache__
 .idea
+django_test/static

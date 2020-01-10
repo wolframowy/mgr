@@ -20,3 +20,4 @@ db.hmdb_met_names.find().forEach(function (row){
 	db.hmdb_met_names.update({_id: row._id},
 		{$set: {"id": id.value}})
 })
+db.hmdb_met_names.createIndex( { name: 1 }, { name: "Primary key" } )

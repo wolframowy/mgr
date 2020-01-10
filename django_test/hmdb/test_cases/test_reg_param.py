@@ -43,9 +43,18 @@ def create_test_data():
     spec5 = Spectra(id=5, ms_ms=spec5_msms)
     spec5.save()
 
-    MetaboliteNames(name="1,3-Diaminopropane", met_id=1).save()
-    MetaboliteNames(name="Name2", met_id=2).save()
-    MetaboliteNames(name="Name3", met_id=3).save()
+    MetaboliteNames(name="1,3-Diaminopropane", met_id=1, super_class="Organic nitrogen compounds",
+                    main_class="Organonitrogen compounds", sub_class="Amines",
+                    biospecimen_locations=["Blood", "Feces", "Urine"],
+                    monisotopic_molecular_weight=74.08439833).save()
+    MetaboliteNames(name="Name2", met_id=2, super_class="Organic nitrogen compounds",
+                    main_class="Organonitrogen compounds", sub_class="Amines",
+                    biospecimen_locations=["Blood", "Feces", "Urine"],
+                    monisotopic_molecular_weight=74.08439833).save()
+    MetaboliteNames(name="Name3", met_id=3, super_class="Organic nitrogen compounds",
+                    main_class="Organonitrogen compounds", sub_class="Amines",
+                    biospecimen_locations=["Blood", "Feces", "Urine"],
+                    monisotopic_molecular_weight=74.08439833).save()
 
 
 class RegParamTest(TestCase):

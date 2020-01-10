@@ -164,6 +164,7 @@ function met_adv_search_btn_click() {
         $("#metabolites_table tr").show().children().show();
         return;
     }
+    $('.reg_parm_loading').show();
     $('#metabolites_table').empty();
     $.ajax({
         url: async_get_url,

@@ -44,18 +44,20 @@ def find_metablites(spectra_list):
     client = MongoClient('localhost', 27017)
     db = client.hmdb
     all_metabolites = db.hmdb_metabolite
-    found_metabolites = []
+    found_metabolites = {}
     found_metabolites_names = []
     for spectrum in spectra_list:
         for result in all_metabolites.find({"spectra.spectrum": {'$elemMatch': {'spectrum_id': f'{spectrum}'}}}):
             if result['accession'][0] not in found_metabolites:
-                found_metabolites.append(result['accession'][0])
+                found_metabolites[result['accession'][0]] = 1
                 found_metabolites_names.append(result['name'])
+            else:
+                found_metabolites[result['accession'][0]] += 1
     pass
 
 
 def main():
-    candidates = find_spectrum([102.1, 128.0, 146.0, 129.0, 148.0, 108.0, 84.0], 0.1)
+    candidates = find_spectrum([102.1, 128.0, 146.0, 129.0, 148.1, 108.0, 84.0], 0.1)
     find_metablites(candidates)
 
 

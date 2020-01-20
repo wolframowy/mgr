@@ -28,6 +28,11 @@ def find_spectrum(peak_list, tolerance):
             ranked_canditates[candidate['id']] = ranking
 
     final_candidates = [x for x in ranked_canditates.keys() if ranked_canditates[x] == len(peak_list)]
+    if len(final_candidates) == 0:
+        counter = 0
+        while len(final_candidates) == 0 and counter < len(peak_list):
+            counter +=1
+            final_candidates = [x for x in ranked_canditates.keys() if ranked_canditates[x] == len(peak_list)-counter]
 
     return final_candidates
 
@@ -50,7 +55,7 @@ def find_metablites(spectra_list):
 
 
 def main():
-    candidates = find_spectrum([102.1, 128.0, 146.0], 0.1)
+    candidates = find_spectrum([102.1, 128.0, 146.0, 129.0, 148.0, 108.0, 84.0], 0.1)
     find_metablites(candidates)
 
 

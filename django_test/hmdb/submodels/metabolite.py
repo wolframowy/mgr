@@ -54,13 +54,13 @@ class Taxonomy(models.Model):
     main_class = models.TextField('Class', max_length=100)
     sub_class = models.TextField('Sub class', max_length=100)
     molecular_framework = models.TextField('Molecular framework', max_length=100)
-    alternative_parents = models.EmbeddedModelField(
+    alternative_parents = models.EmbeddedField(
         model_container=AlternativeParents
     )
-    substituents = models.EmbeddedModelField(
+    substituents = models.EmbeddedField(
         model_container=SubstituentArray
     )
-    external_descriptors = models.EmbeddedModelField(
+    external_descriptors = models.EmbeddedField(
         model_container=ExternalDescriptorsArray
     )
 
@@ -77,7 +77,7 @@ class Taxonomy(models.Model):
 # # Due to cross reference with OntologyRoot class is described here, and it's attribute is added later on
 # class Descendant(models.Model):
 #
-#     descendant = models.ArrayModelField(
+#     descendant = models.ArrayField(
 #         model_container=OntologyRoot
 #     )
 #
@@ -93,7 +93,7 @@ class Taxonomy(models.Model):
 #     level = models.PositiveSmallIntegerField('Level')
 #     type = models.TextField('Type', max_length=50)
 #     synonyms = models.TextField('Synonyms', max_length=50)
-#     descendants = models.EmbeddedModelField(
+#     descendants = models.EmbeddedField(
 #         model_container=Descendant
 #     )
 #
@@ -102,7 +102,7 @@ class Taxonomy(models.Model):
 #
 #
 # class Ontology(models.Model):
-#     root = models.ArrayModelField(
+#     root = models.ArrayField(
 #         model_container=OntologyRoot
 #     )
 #
@@ -123,7 +123,7 @@ class Property(models.Model):
 
 class PropertyArray(models.Model):
 
-    property = models.ArrayModelField(
+    property = models.ArrayField(
         model_container=Property
     )
 
@@ -142,7 +142,7 @@ class Spectrum(models.Model):
 
 class SpectrumArray(models.Model):
 
-    spectrum = models.ArrayModelField(
+    spectrum = models.ArrayField(
         model_container=Spectrum
     )
 
@@ -184,16 +184,16 @@ class Pathway(models.Model):
 
 class BiologicalProperties(models.Model):
 
-    cellular_locations = models.EmbeddedModelField(
+    cellular_locations = models.EmbeddedField(
         model_container=Cellular
     )
-    biospecimen_locations = models.EmbeddedModelField(
+    biospecimen_locations = models.EmbeddedField(
         model_container=Biospecimen
     )
-    tissue_locations = models.EmbeddedModelField(
+    tissue_locations = models.EmbeddedField(
         model_container=Tissue
     )
-    pathways = models.EmbeddedModelField(
+    pathways = models.EmbeddedField(
         model_container=Pathway
     )
 
@@ -212,7 +212,7 @@ class Reference(models.Model):
 
 class ReferenceArray(models.Model):
 
-    reference = models.ArrayModelField(
+    reference = models.ArrayField(
         model_container=Reference
     )
 
@@ -230,7 +230,7 @@ class Concentration(models.Model):
     subject_condition = models.TextField('Subject condition', max_length=50)
     subject_information = models.TextField('Subject information', max_length=50)
     comment = models.TextField('Comment', max_length=1000)
-    references = models.EmbeddedModelField(
+    references = models.EmbeddedField(
         model_container=ReferenceArray
     )
 
@@ -240,7 +240,7 @@ class Concentration(models.Model):
 
 class Concentrations(models.Model):
 
-    concentration = models.ArrayModelField(
+    concentration = models.ArrayField(
         model_container=Concentration
     )
 
@@ -252,7 +252,7 @@ class Disease(models.Model):
 
     name = models.TextField('Name', max_length=200)
     omim_id = models.PositiveIntegerField('Omim ID', max_length=20)
-    references = models.EmbeddedModelField(
+    references = models.EmbeddedField(
         model_container=ReferenceArray
     )
 
@@ -262,7 +262,7 @@ class Disease(models.Model):
 
 class Diseases(models.Model):
 
-    disease = models.ArrayModelField(
+    disease = models.ArrayField(
         model_container=Disease
     )
 
@@ -284,7 +284,7 @@ class Protein(models.Model):
 
 class ProteinAssociations(models.Model):
 
-    protein = models.ArrayModelField(
+    protein = models.ArrayField(
         model_container=Protein
     )
 
@@ -303,7 +303,7 @@ class Identifier(models.Model):
 
 class ExternalLinks(models.Model):
 
-    identifier = models.ArrayModelField(
+    identifier = models.ArrayField(
         model_container=Identifier
     )
 
@@ -322,13 +322,13 @@ class Metabolite(models.Model):
     creation_date = models.DateTimeField('Creation date')
     update_date = models.DateTimeField('Update date')
     accession = models.TextField('Accession', max_length=20)
-    secondary_accessions = models.EmbeddedModelField(
+    secondary_accessions = models.EmbeddedField(
         model_container=SecondaryAccession, blank=True
     )
     name = models.TextField('Name', max_length=100)
     cs_description = models.TextField('CS description', max_length=1000)
     description = models.TextField('Description', max_length=1000)
-    synonyms = models.EmbeddedModelField(
+    synonyms = models.EmbeddedField(
         model_container=SynonymArray, blank=True
     )
     chemical_formula = models.TextField('Chemical Formula', max_length=100)
@@ -340,33 +340,33 @@ class Metabolite(models.Model):
     smiles = models.TextField('Smiles', max_length=50)
     inchi = models.TextField('Inchi', max_length=100)
     inchikey = models.TextField('Inchi Key', max_length=100)
-    taxonomy = models.EmbeddedModelField(
+    taxonomy = models.EmbeddedField(
         model_container=Taxonomy, blank=True
     )
     # Otology omited for time being as djongo doesn't work with circular reference
-    # ontology = models.EmbeddedModelField(
+    # ontology = models.EmbeddedField(
     #     model_container=Ontology
     # )
     state = models.TextField('State', max_length=20)
-    experimental_properties = models.EmbeddedModelField(
+    experimental_properties = models.EmbeddedField(
         model_container=PropertyArray, blank=True
     )
-    predicted_properties = models.EmbeddedModelField(
+    predicted_properties = models.EmbeddedField(
         model_container=PropertyArray, blank=True
     )
-    spectra = models.EmbeddedModelField(
+    spectra = models.EmbeddedField(
         model_container=SpectrumArray, blank=True
     )
-    biological_properties = models.EmbeddedModelField(
+    biological_properties = models.EmbeddedField(
         model_container=BiologicalProperties, blank=True
     )
-    normal_concentrations = models.EmbeddedModelField(
+    normal_concentrations = models.EmbeddedField(
         model_container=Concentrations, blank=True
     )
-    abnormal_concentrations = models.EmbeddedModelField(
+    abnormal_concentrations = models.EmbeddedField(
         model_container=Concentrations, blank=True
     )
-    diseases = models.EmbeddedModelField(
+    diseases = models.EmbeddedField(
         model_container=Diseases, blank=True
     )
     kegg_id = models.TextField('Kegg ID', max_length=20)
@@ -383,28 +383,28 @@ class Metabolite(models.Model):
     metlin_id = models.PositiveIntegerField('Metlin ID')
     pdb_id = models.TextField('PDB ID', max_length=20)
     synthesis_reference = models.TextField('Synthesis reference', max_length=1000)
-    general_references = models.EmbeddedModelField(
+    general_references = models.EmbeddedField(
         model_container=ReferenceArray, blank=True
     )
-    protein_associations = models.EmbeddedModelField(
+    protein_associations = models.EmbeddedField(
         model_container=ProteinAssociations, blank=True
     )
 
     biocyc_id = models.TextField('Biocyc_id', max_length=50, blank=True)
-    biospecimen_locations = models.EmbeddedModelField(
+    biospecimen_locations = models.EmbeddedField(
         model_container=Biospecimen, blank=True
     )
-    cellular_locations = models.EmbeddedModelField(
+    cellular_locations = models.EmbeddedField(
         model_container=Cellular, blank=True
     )
-    tissue_locations = models.EmbeddedModelField(
+    tissue_locations = models.EmbeddedField(
         model_container=Tissue, blank=True
     )
-    pathways = models.EmbeddedModelField(
+    pathways = models.EmbeddedField(
         model_container=Pathway, blank=True
     )
     drugbank_metabolite_id = models.TextField('Drugbank metabolite ID', max_length=50)
-    external_links = models.EmbeddedModelField(
+    external_links = models.EmbeddedField(
         model_container=ExternalLinks, blank=True
     )
     # Het_id is null everywhere

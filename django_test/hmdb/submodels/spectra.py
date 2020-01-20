@@ -1,5 +1,3 @@
-import datetime
-
 from djongo import models
 
 
@@ -17,7 +15,7 @@ class MsMsPeak(models.Model):
 
 class MsMsPeakArray(models.Model):
 
-    ms_ms_peak = models.ArrayModelField(
+    ms_ms_peak = models.ArrayField(
         model_container=MsMsPeak
     )
 
@@ -40,7 +38,7 @@ class Reference(models.Model):
 
 
 class ReferenceArray(models.Model):
-    reference = models.ArrayModelField(
+    reference = models.ArrayField(
         model_container=Reference
     )
 
@@ -64,7 +62,7 @@ class MsMs(models.Model):
     # Mono mass is null everywhere
     mono_mass = models.FloatField('Mono mass')
 
-    ms_ms_peaks = models.EmbeddedModelField(
+    ms_ms_peaks = models.EmbeddedField(
         model_container=MsMsPeakArray, blank=True
     )
 
@@ -72,7 +70,7 @@ class MsMs(models.Model):
     peak_counter = models.PositiveIntegerField('Peak count')
     predicted = models.BooleanField('Is predicted?', default=False)
 
-    references = models.EmbeddedModelField(
+    references = models.EmbeddedField(
         model_container=ReferenceArray, blank=True
     )
 
@@ -98,7 +96,7 @@ class MsMs(models.Model):
 
 class Spectra(models.Model):
 
-    ms_ms = models.EmbeddedModelField(
+    ms_ms = models.EmbeddedField(
         model_container=MsMs
     )
 

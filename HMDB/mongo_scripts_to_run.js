@@ -21,3 +21,7 @@ db.hmdb_met_names.find().forEach(function (row){
 		{$set: {"id": id.value}})
 })
 db.hmdb_met_names.createIndex( { name: 1 }, { name: "Primary key" } )
+db.hmdb_met_names.createIndex( { super_class: 1 }, { name: "Super class index" } )
+db.hmdb_met_names.createIndex( { main_class: 1 }, { name: "Main class index" } )
+db.hmdb_met_names.createIndex( { sub_class: 1 }, { name: "Sub class index" } )
+db.hmdb_met_names.createIndex( { monisotopic_molecular_weight: 1 }, { name: "Monoisotopic molecular weight index" } )

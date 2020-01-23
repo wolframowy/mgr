@@ -16,7 +16,7 @@ def reg_param_get_async(request):
     elif payload['type'] == 'metabolites':
         return reg_parm_get_metabolites(payload)
     elif payload['type'] == 'advanced':
-        return reg_parm_get_metabolites_advanced(payload)
+        return reg_parm_get_names_advanced(payload)
     elif payload['type'] == 'biospecimen':
         return reg_parm_get_biospecimen()
     raise Http404
@@ -62,7 +62,7 @@ def reg_parm_get_biospecimen():
     return JsonResponse(data, safe=False)
 
 
-def reg_parm_get_metabolites_advanced(payload):
+def reg_parm_get_names_advanced(payload):
     q = Q()
     if payload['mass_min'] != '':
         q &= Q(monisotopic_molecular_weight__gte=payload['mass_min'])

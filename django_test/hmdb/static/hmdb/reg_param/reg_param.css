@@ -95,6 +95,7 @@
     align-items: center;
     overflow: auto;
     max-height: 10em;
+    margin: 0 0 0.5em 0;
 }
 .advanced_search_buttons {
     display: flex;

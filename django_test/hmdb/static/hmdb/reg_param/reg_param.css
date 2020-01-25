@@ -31,6 +31,8 @@
 .table_separator {
     margin: 0;
     padding: 0;
+    height: 1px !important;
+    background-color: var(--color-dark-blue) !important;
 }
 
 .reg_param_section {

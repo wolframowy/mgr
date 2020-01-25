@@ -4,6 +4,13 @@ $(document).ready(function() {
             met_search_btn_click();
         };
     });
+    $('#adv_search_name, #adv_search_super_class, #adv_search_main_class, ' +
+        '#adv_search_sub_class, #adv_search_biospecimen, #adv_search_mass_min, #adv_search_mass_max')
+        .on('keyup', function (e) {
+        if (e.keyCode === 13) {
+            met_adv_search_btn_click();
+        };
+    });
 
     $('#minimal_intensity').on('keyup change', function (e) {
         if ($(this).val() > 100) {
@@ -19,7 +26,7 @@ $(document).ready(function() {
 })
 
 function filterByIntensity(intensity) {
-    $(".reg_parm_spectrum_table tr").not(':first-child').filter(function() {
+    $(".reg_parm_spectrum_table tr").not(':first-child').not('.table_separator').filter(function() {
         $(this).toggle(parseFloat($(this).find(':last-child').text()) >= intensity)
     });
     colorTable('reg_parm_spectrum_table');
@@ -60,7 +67,7 @@ function createRegistrationParamView(response) {
                         );
                         table.append(tr);
                     })
-                    table.append($('<div>', {class: 'table_separator'}));
+                    table.append($('<tr>', {class: 'table_separator'}).append($('<td>', {colspan: 4})));
                 });
             var reg_parm_spectrum = $('<div>', {class: 'reg_parm_spectrum'})
                 .append(

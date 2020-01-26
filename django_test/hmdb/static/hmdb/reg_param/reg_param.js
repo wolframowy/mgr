@@ -33,8 +33,8 @@ function filterByIntensity(intensity) {
 }
 
 function colorTable(table_class) {
-    $("table." + table_class + " tr:visible:odd").addClass("odd").removeClass("even");
-    $("table." + table_class + " tr:visible:even").addClass("even").removeClass("odd");
+    $("table." + table_class + " tr").not('.table_separator').filter(":visible:odd").addClass("odd").removeClass("even");
+    $("table." + table_class + " tr").not('.table_separator').filter(":visible:even").addClass("even").removeClass("odd");
 }
 
 function createRegistrationParamView(response) {

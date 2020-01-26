@@ -181,3 +181,13 @@ a.metabolite_name:hover, a.metabolite_name:active {
     font-weight: bold;
     margin: 0 0 0.2em 0;
 }
+
+.hmdb_link {
+    font-weight: normal;
+    font-size: 0.7em;
+    margin-left: 0.2em;
+}
+
+.hmdb_link_img {
+    margin-left: 0.1em;
+}

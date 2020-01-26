@@ -82,7 +82,15 @@ function createRegistrationParamView(response) {
             .append(
                 $('<a>', {class: 'metabolite_name'}).text(metabolite.name)
                     .attr('href', 'http://www.hmdb.ca/metabolites/' + metabolite.accession)
-                    .attr('target', '_blank'),
+                    .attr('target', '_blank')
+                    .append(
+                        $('<span>', {class: 'hmdb_link'}).text('HMDB')
+                        .append($('<img>', {class: 'hmdb_link_img'})
+                            .attr('src', 'https://upload.wikimedia.org/wikipedia/commons/6/6a/External_link_font_awesome.svg')
+                            .attr('alt', 'external link icon')
+                            .attr('width', '10')
+                            .attr('height', '10'))
+                    ),
                 $('<div>', {class: 'metabolite_avg_mol_wgt'})
                     .text('Monoisotopic molecular weight: ' + metabolite.m_1),
                 reg_params

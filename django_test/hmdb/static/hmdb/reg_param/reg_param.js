@@ -84,7 +84,7 @@ function createRegistrationParamView(response) {
                     .attr('href', 'http://www.hmdb.ca/metabolites/' + metabolite.accession)
                     .attr('target', '_blank'),
                 $('<div>', {class: 'metabolite_avg_mol_wgt'})
-                    .text('Monisotopic molecular weight: ' + metabolite.m_1),
+                    .text('Monoisotopic molecular weight: ' + metabolite.m_1),
                 reg_params
             );
 

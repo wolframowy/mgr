@@ -42,11 +42,6 @@ function createRegistrationParamView(response) {
     $.each(response, function(i, metabolite) {
         var reg_params = $('<div>', {class: 'reg_param_list_container table_scroll'});
         $.each(metabolite.spectra_params, function(mode, spectra) {
-            if (spectra.length === 0) {
-                reg_params.append(
-                    $('<div>').text('No spectra found for this compound.')
-                );
-            };
             var table = $('<table>', {class: 'reg_parm_spectrum_table'})
                 .append(
                     $('<tr>').append(
@@ -56,6 +51,11 @@ function createRegistrationParamView(response) {
                         $('<th>').text('Intensity')
                     )
             );
+            if (spectra.length === 0) {
+                table.append(
+                    $('<div>').text('No spectra found for this compound.')
+                );
+            } else {
                 $.each(spectra, function(i, spectrum) {
                     $.each(spectrum.reg_param, function(i, param) {
                         var tr = $('<tr>').append(
@@ -63,12 +63,13 @@ function createRegistrationParamView(response) {
                             $('<td>').text(parseFloat(metabolite.m_1) +
                                 (spectrum.ionization_mode.toLowerCase() === 'positive' ? 1 : -1)),
                             $('<td>').text(param.q2_3),
-                            $('<td>').text(param.intensity)
+                            $('<td>').text(parseFloat(param.rel_intensity).toPrecision(4))
                         );
                         table.append(tr);
                     })
                     table.append($('<tr>', {class: 'table_separator'}).append($('<td>', {colspan: 4})));
                 });
+            };
             var reg_parm_spectrum = $('<div>', {class: 'reg_parm_spectrum'})
                 .append(
                     $('<div>', {class: 'separator'}),

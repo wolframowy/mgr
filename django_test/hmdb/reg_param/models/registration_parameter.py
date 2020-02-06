@@ -1,9 +1,10 @@
 
 class RegistrationParameter:
 
-    def __init__(self, q2_3: float, intensity: float):
+    def __init__(self, q2_3: float, intensity: float, rel_intensity: float):
         self.q2_3 = q2_3
         self.intensity = intensity
+        self.rel_intensity = rel_intensity
 
     def to_dict(self):
         return self.__dict__

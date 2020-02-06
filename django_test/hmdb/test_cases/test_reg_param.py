@@ -96,7 +96,6 @@ class RegParamTest(TestCase):
     def test_reg_param_view_get_metabolite_async_404(self):
         payload = {
             "type": "metabolites",
-            "minimal_intensity": 30,
             "selected_ids": "[25]"      # ids are in a string, because in jquery we need to stringify it
         }
         response = self.client.get(reverse('hmdb:reg_param_get_async'), payload, content_type='application/json')

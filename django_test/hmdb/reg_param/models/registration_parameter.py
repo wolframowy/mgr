@@ -24,6 +24,10 @@ class SpectrumParameter:
         return self.__dict__
 
 
+def sort_func(x):
+    return -1 if x['e'] is None else x['e']
+
+
 class MetaboliteRegistration:
 
     def __init__(self, name: str, m_1: float, accession: str):
@@ -43,3 +47,8 @@ class MetaboliteRegistration:
             self.spectra_params['negative'].append(spec_param)
         else:
             self.spectra_params['na'].append(spec_param)
+
+    def sort_spectra_params(self):
+        self.spectra_params['positive'].sort(key=sort_func)
+        self.spectra_params['negative'].sort(key=sort_func)
+        self.spectra_params['na'].sort(key=sort_func)

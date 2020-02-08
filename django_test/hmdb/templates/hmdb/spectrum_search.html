@@ -1,0 +1,90 @@
+{% extends "hmdb/navbar.html" %}
+
+{% block title %}
+<title>Search by spectrum</title>
+{% endblock %}
+
+{% block content %}
+<div class="spectrum_search_container">
+    <div class="spectrum_search_title">
+        Search by spectrum
+    </div>
+    <div class="spectrum_search_main">
+        <div class="spectrum_search_content">
+            <div class="spectrum_search_search_container">
+                <div>
+                    <div class="spectrum_search_section"> Metabolite search</div>
+                    <div class="selection_section">
+                        <div class="simple_search">
+                            <div class="required_parameters">
+                                <div><b>Required parameters</b></div>
+                                <div class="input_container">
+                                    <div>Peaks</div>
+                                    <input id="peaks" type="text" placeholder="86.1 122.9 155.0...">
+                                </div>
+                                <div class="input_container">
+                                    <div>Peak accuracy</div>
+                                    <input id="peak_accuracy" type="text" placeholder="0.5">
+                                </div>
+                            </div>
+                            <div class="optional_parameters">
+                                <div><b>Optional parameters</b></div>
+                                <div class="input_container">
+                                    <div>Minimum matching peaks</div>
+                                    <input id="minimum_ranking" type="text" placeholder="20">
+                                </div>
+                                <div class="input_container">
+                                    <div>Monoisotopic molecular weight</div>
+                                    <input id="monoisotopic_molecular_weight" type="text" placeholder="147.05">
+                                </div>
+                                <div class="input_container">
+                                    <div>Include keywords</div>
+                                    <input id="include_keywords" type="text" placeholder="20">
+                                </div>
+                                <div class="input_container">
+                                    <div>Exclude keywords</div>
+                                    <input id="exclude_keywords" type="text" placeholder="20">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="advanced_search_buttons">
+                            <button id="metabolites_search_btn" onclick="met_search_btn_click()">Search</button>
+                            <button id="load_example_btn" onclick="load_example_btn_click()">Load Example</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="reg_parm_loading" style="display:none">LOADING...</div>
+
+                <div class="table_scroll">
+                    <table id="metabolites_table" class="reg_parm_met_table">
+                    </table>
+                </div>
+            </div>
+
+        </div>
+        <div class="reg_parm_table_container" style="display:none">
+            <div class="reg_param_section">
+                <div id="metabolite_name">Registration parameters table</div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+{% endblock %}
+
+{% block javascript %}
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'hmdb/reg_param/reg_param.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'hmdb/spectrum_search/spectrum_search.css' %}">
+<script>
+    var async_get_url = "{% url 'hmdb:spectrum_search_get_async' %}";
+    var metabolite_get_url = "{% url 'hmdb:metabolite_get_async' %}";
+
+
+
+
+
+
+</script>
+<script src="{% static 'hmdb/spectrum_search/spectrum_search.js' %}"></script>
+{% endblock %}

@@ -49,8 +49,11 @@ def reg_parm_get_metabolites(payload):
             peaks = sorted(spectrum.ms_ms.ms_ms_peaks.ms_ms_peak, key=lambda x: x.intensity, reverse=True)
             max_intensity = peaks[0].intensity
             for peak in peaks:
+                rel_intensity = peak.intensity/max_intensity*100
+                if rel_intensity < 1.0:
+                    continue
                 new_spec_param.add_reg_param(RegistrationParameter(intensity=peak.intensity,
-                                                                   rel_intensity=peak.intensity/max_intensity*100,
+                                                                   rel_intensity=rel_intensity,
                                                                    q2_3=peak.mass_charge).to_dict())
             new_met_reg.add_spectrum_param(new_spec_param.to_dict())
         new_met_reg.sort_spectra_params()

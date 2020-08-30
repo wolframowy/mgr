@@ -1,0 +1,1 @@
+printjson(db.hmdb_spectra.aggregate( {$project:{peakSize:{$size: {$ifNull: ["$ms_ms.ms_ms_peaks.ms_ms_peak", []]}}}}).toArray())

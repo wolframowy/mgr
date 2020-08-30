@@ -25,7 +25,7 @@ SECRET_KEY = '3wt*id0uu-37flw$vv0@pk-wua+ph5ad*n8lv=^4mdjbt)tbia'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['192.168.1.208', 'localhost']
+ALLOWED_HOSTS = ['192.168.1.208', 'localhost', 'laptop-kuby', 'DESKTOP-6TQCVG7']
 
 
 # Application definition
@@ -78,6 +78,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'djongo',
         'NAME': 'hmdb',
+        'USER': 'application',
+        'PASSWORD': 'Hasloaplikacyjne1',
 
         # Schema set to false, because there can be some missing or optional fields
         'ENFORCE_SCHEMA': False,

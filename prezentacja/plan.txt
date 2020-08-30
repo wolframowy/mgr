@@ -1,0 +1,54 @@
+motywacja:
+hmdb - sam fakt istnienia takich zbiorów danych dopiero pozwolił by coś można z tym było zrobić. Plusy: dużo informacji, minusy: niejednolite informacje
+usprawnienie i obniżenie kosztów badań - wykorzystując istniejące zbiory danych można 
+
+spektra:
+- jak działają i jak są robione
+- wierzchołki - intensywność
+- neutral loss
+- masa przez ładunek
+
+hmdb:
+- duzo wynikow
+- publicznie dostepna
+- tylko metabolity ludzkie
+- bałagan
+- niejednolite
+- różne aparatury pomiarowe
+
+cele pracy
+- stworzenie aplikacji 
+- zbadanie grupy związków aby znaleźć zależności
+
+aplikacja
+- jakie narzędzia
+- do czego służy
+- (jakie narzędzia?)
+- 
+
+badania
+
+metoda - 
+
+wyniki:
+większe -> mniejsze:
+- szum po lewej górnej stronie
+- cała góra to praktycznie szum powiązany z 18 lub 28
+- najciekawsza w tym wykresie jest linia z najwięksyzm przyrostem
+	to jest 252 i 154
+	co by znacyzło, ze 98 jest wynikiem tego rozpadu
+	58 i 40 tak samo są mocno skorelowane wiec 98 też tam ładnie się dopasowuje
+	
+mniejsze -> większe:
+- więcej można wywnioskować, wykres troche obrócony
+- grupa na lewo to szum
+- tym razem najsilniejsza linia to też wartości szumu powiązane z 18 lub 28
+- za to o wiele lepiej widać powiązania na reszcie reguł
+- 252 i 292 (rozpada sie 40)
+- 252 i 154 (odpada 98)
+- 40 i 58 (odpada 18)
+- pojawia się też o wiele bardziej widoczna reguła 70 -> 98 (odpada 28), która niestety 
+
+wnioski
+
+dalsze prace
